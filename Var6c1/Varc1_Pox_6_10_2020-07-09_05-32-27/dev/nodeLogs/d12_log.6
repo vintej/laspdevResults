@@ -1,0 +1,2336 @@
+
+
+root@csst-06:/home/ubuntu/laspdev# 
+root@csst-06:/home/ubuntu/laspdev# python /home/ubuntu/laspdev/utility/setup_laspp.py d12
+d12
+ip:11.0.0.12
+node:b
+root@d12:/# [Kroot@d12:/# service vnstat start
+[....] Starting vnStat daemon: vnstatd[?25l7[1G[[32m ok [39;49m8[?12l[?25h.
+root@d12:/# sysctl -w net.ipv4.ip_forward=0
+net.ipv4.ip_forward = 0
+root@d12:/# vnstat -u -i d12-eth0
+Error: Unable to read database "/var/lib/vnstat/d12-eth0": No such file or directory
+Info: -> A new database has been created.
+root@d12:/# vnstat -u
+root@d12:/# vnstat
+
+                      rx      /      tx      /     total    /   estimated
+ eth0:
+       Jun '20         4 KiB  /       1 KiB  /       5 KiB
+       Jul '20      4.00 GiB  /       7 KiB  /    4.00 GiB  /       0 KiB
+      07/06/20      4.00 GiB  /       0 KiB  /    4.00 GiB
+         today         0 KiB  /       0 KiB  /       0 KiB  /      --    
+
+ d12-eth0: Not enough data available yet.
+root@d12:/# export PEER_SERVICE=partisan_hyparview_peer_service_manager
+root@d12:/# export RATE_CLASS=c2
+root@d12:/# export RATE_C1=7000
+root@d12:/# export RATE_C2=40000
+root@d12:/# export RATE_C3=70000
+root@d12:/# export PROPAGATE_ON_UPDATE=false
+root@d12:/# export MAX_ACTIVE_SIZE=50
+root@d12:/# cd /opt/lasp
+root@d12:/opt/lasp# epmd -daemon
+root@d12:/opt/lasp# rebar3 shell --name b@11.0.0.12
+[0;32m===> Verifying dependencies...
+[0m[0;32m===> Compiling lasp
+[0mErlang/OTP 19 [erts-8.3] [source] [64-bit] [smp:24:24] [ds:24:24:10] [async-threads:0] [hipe] [kernel-poll:false]
+
+Eshell V8.3  (abort with ^G)
+(b@11.0.0.12)1> [0;35m===> The rebar3 shell is a development tool; to deploy applications in production, consider using releases (http://www.rebar3.org/docs/releases)
+[0m05:36:43.585 [info] Application lager started on node 'b@11.0.0.12'
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:43 ===
+          supervisor: {local,sasl_safe_sup}
+             started: [{pid,<0.253.0>},
+                       {id,alarm_handler},
+                       {mfargs,{alarm_handler,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,2000},
+                       {child_type,worker}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:43 ===
+          supervisor: {local,sasl_sup}
+             started: [{pid,<0.252.0>},
+                       {id,sasl_safe_sup},
+                       {mfargs,
+                           {supervisor,start_link,
+                               [{local,sasl_safe_sup},sasl,safe]}},
+                       {restart_type,permanent},
+                       {shutdown,infinity},
+                       {child_type,supervisor}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:43 ===
+          supervisor: {local,sasl_sup}
+             started: [{pid,<0.254.0>},
+                       {id,release_handler},
+                       {mfargs,{release_handler,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,2000},
+                       {child_type,worker}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:43 ===
+         application: sasl
+          started_at: 'b@11.0.0.12'
+05:36:43.679 [info] Application sasl started on node 'b@11.0.0.12'
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:43 ===
+         application: lasp_support
+          started_at: 'b@11.0.0.12'
+05:36:43.679 [info] Application lasp_support started on node 'b@11.0.0.12'
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:43 ===
+         application: acceptor_pool
+          started_at: 'b@11.0.0.12'
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:43 ===
+         application: quickrand
+          started_at: 'b@11.0.0.12'
+05:36:43.682 [info] Application acceptor_pool started on node 'b@11.0.0.12'
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:43 ===
+         application: uuid
+          started_at: 'b@11.0.0.12'
+05:36:43.685 [info] Application quickrand started on node 'b@11.0.0.12'
+05:36:43.685 [info] Application uuid started on node 'b@11.0.0.12'
+05:36:43.710 [info] Using node name: 'b@11.0.0.12'
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:43 ===
+          supervisor: {local,kernel_safe_sup}
+             started: [{pid,<0.266.0>},
+                       {id,timer_server},
+                       {mfargs,{timer,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,1000},
+                       {child_type,worker}]
+05:36:43.721 [info] Resolving "11.0.0.12"...
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:43 ===
+          supervisor: {local,inet_gethost_native_sup}
+             started: [{pid,<0.268.0>},{mfa,{inet_gethost_native,init,[[]]}}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:43 ===
+          supervisor: {local,kernel_safe_sup}
+             started: [{pid,<0.267.0>},
+                       {id,inet_gethost_native_sup},
+                       {mfargs,{inet_gethost_native,start_link,[]}},
+                       {restart_type,temporary},
+                       {shutdown,1000},
+                       {child_type,worker}]
+05:36:43.730 [info] Resolved "b@11.0.0.12" to {11,0,0,12}
+05:36:43.730 [info] Resolved "11.0.0.12" to {11,0,0,12}
+05:36:43.927 [info] Partisan listening on {11,0,0,12}:51087 listen_addrs: [#{ip => {11,0,0,12},port => 51087}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:43 ===
+          supervisor: {local,partisan_sup}
+             started: [{pid,<0.313.0>},
+                       {id,partisan_rpc_backend},
+                       {mfargs,{partisan_rpc_backend,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,5000},
+                       {child_type,worker}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:43 ===
+          supervisor: {local,partisan_sup}
+             started: [{pid,<0.314.0>},
+                       {id,partisan_acknowledgement_backend},
+                       {mfargs,
+                           {partisan_acknowledgement_backend,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,5000},
+                       {child_type,worker}]
+05:36:43.966 [info] Not using container orchestration; disabling.
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+          supervisor: {local,partisan_sup}
+             started: [{pid,<0.315.0>},
+                       {id,partisan_orchestration_backend},
+                       {mfargs,{partisan_orchestration_backend,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,5000},
+                       {child_type,worker}]
+05:36:44.016 [info] node 'b@11.0.0.12' choosing random seed: {84475222,-576460745825435518,-576460752303423422}
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+          supervisor: {local,partisan_sup}
+             started: [{pid,<0.316.0>},
+                       {id,partisan_hyparview_peer_service_manager},
+                       {mfargs,
+                           {partisan_hyparview_peer_service_manager,
+                               start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,5000},
+                       {child_type,worker}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+          supervisor: {local,partisan_sup}
+             started: [{pid,<0.317.0>},
+                       {id,partisan_peer_service_events},
+                       {mfargs,{partisan_peer_service_events,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,5000},
+                       {child_type,worker}]
+05:36:44.026 [info] node 'b@11.0.0.12' choosing random seed: {84475222,-576460745825435518,-576460752303423422}
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+          supervisor: {local,partisan_sup}
+             started: [{pid,<0.318.0>},
+                       {id,partisan_plumtree_backend},
+                       {mfargs,{partisan_plumtree_backend,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,5000},
+                       {child_type,worker}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+          supervisor: {local,partisan_sup}
+             started: [{pid,<0.319.0>},
+                       {id,partisan_plumtree_broadcast},
+                       {mfargs,{partisan_plumtree_broadcast,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,5000},
+                       {child_type,worker}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+          supervisor: {local,partisan_sup}
+             started: [{pid,<0.320.0>},
+                       {id,partisan_monitor},
+                       {mfargs,{partisan_monitor,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,5000},
+                       {child_type,worker}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+          supervisor: {local,partisan_pool_sup}
+             started: [{pid,<0.322.0>},
+                       {id,partisan_pool},
+                       {mfargs,{partisan_pool,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,5000},
+                       {child_type,worker}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+          supervisor: {local,partisan_pool_sup}
+             started: [{pid,<0.323.0>},
+                       {id,{partisan_socket,{11,0,0,12},51087}},
+                       {mfargs,
+                           {partisan_socket,start_link,[{11,0,0,12},51087]}},
+                       {restart_type,permanent},
+                       {shutdown,5000},
+                       {child_type,worker}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+          supervisor: {local,partisan_sup}
+             started: [{pid,<0.321.0>},
+                       {id,partisan_pool_sup},
+                       {mfargs,{partisan_pool_sup,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,20000},
+                       {child_type,supervisor}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+         application: partisan
+          started_at: 'b@11.0.0.12'
+05:36:44.126 [info] Application partisan started on node 'b@11.0.0.12'
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+          supervisor: {local,plumtree_sup}
+             started: [{pid,<0.338.0>},
+                       {id,plumtree_broadcast},
+                       {mfargs,{plumtree_broadcast,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,5000},
+                       {child_type,worker}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+         application: plumtree
+          started_at: 'b@11.0.0.12'
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+         application: gen_fsm_compat
+          started_at: 'b@11.0.0.12'
+05:36:44.140 [info] Application plumtree started on node 'b@11.0.0.12'
+05:36:44.140 [info] Application gen_fsm_compat started on node 'b@11.0.0.12'
+05:36:44.146 [info] Setting jitter: false
+05:36:44.151 [info] Setting jitter percent: 1
+05:36:44.153 [info] Setting event interval: 0
+05:36:44.155 [info] Setting max events: 1000
+05:36:44.156 [info] Setting extended logging: false
+05:36:44.163 [info] Setting mailbox logging: false
+05:36:44.164 [info] Setting operation mode: delta_based
+05:36:44.165 [info] Setting set type: orset
+05:36:44.169 [info] Setting broadcast: false
+05:36:44.204 [info] Membership: false
+05:36:44.207 [info] Workflow: false
+05:36:44.216 [info] AdClientEnabled: false
+05:36:44.220 [info] AdServerEnabled: false
+05:36:44.222 [info] TournClientEnabled: false
+05:36:44.223 [info] TournServerEnabled: false
+05:36:44.225 [info] ThroughputType: gset
+05:36:44.227 [info] ThroughputClientEnabled: false
+05:36:44.228 [info] ThroughputServerEnabled: false
+05:36:44.230 [info] DivergenceType: gcounter
+05:36:44.231 [info] DivergenceClientEnabled: false
+05:36:44.233 [info] DivergenceServerEnabled: false
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+          supervisor: {local,lasp_sup}
+             started: [{pid,<0.385.0>},
+                       {id,lasp_unique},
+                       {mfargs,{lasp_unique,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,5000},
+                       {child_type,worker}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+          supervisor: {local,lasp_sup}
+             started: [{pid,<0.386.0>},
+                       {id,lasp_plumtree_backend},
+                       {mfargs,{lasp_plumtree_backend,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,5000},
+                       {child_type,worker}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+          supervisor: {local,lasp_sup}
+             started: [{pid,<0.387.0>},
+                       {id,lasp_plumtree_memory_report},
+                       {mfargs,{lasp_plumtree_memory_report,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,5000},
+                       {child_type,worker}]
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+          supervisor: {local,lasp_sup}
+             started: [{pid,<0.388.0>},
+                       {id,lasp_memory_utilization_report},
+                       {mfargs,{lasp_memory_utilization_report,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,5000},
+                       {child_type,worker}]
+05:36:44.297 [info] Backend initialized with pid: <0.393.0>
+05:36:44.297 [info] Backend lasp_ets_storage_backend initialized: <0.393.0>
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+          supervisor: {local,lasp_sup}
+             started: [{pid,<0.389.0>},
+                       {id,lasp_distribution_backend},
+                       {mfargs,{lasp_distribution_backend,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,5000},
+                       {child_type,worker}]
+05:36:44.309 [error] Rate Propagations c1: "7000" c2:"40000" c3:"70000" 
+
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+          supervisor: {local,lasp_sup}
+             started: [{pid,<0.395.0>},
+                       {id,lasp_process_sup},
+                       {mfargs,{lasp_process_sup,start_link,[]}},
+                       {restart_type,permanent},
+                       {shutdown,infinity},
+                       {child_type,supervisor}]
+[0;32m===> Booted types
+[0m
+=PROGRESS REPORT==== 9-Jul-2020::05:36:44 ===
+         application: lasp
+          started_at: 'b@11.0.0.12'
+[0;32m===> Booted gen_flow
+[0m[0;32m===> Booted syntax_tools
+[0m[0;32m===> Booted compiler
+[0m[0;32m===> Booted goldrush
+[0m[0;32m===> Booted lager
+[0m[0;32m===> Booted sasl
+[0m[0;32m===> Booted lasp_support
+[0m[0;32m===> Booted acceptor_pool
+[0m[0;32m===> Booted quickrand
+[0m[0;32m===> Booted uuid
+[0m[0;32m===> Booted partisan
+[0m[0;32m===> Booted plumtree
+[0m[0;32m===> Booted gen_fsm_compat
+[0m[0;32m===> Booted lasp
+[0m05:36:44.309 [error] C1 propagation "2020-07-09T05:36:44.309" 
+05:36:44.309 [error] C2 propagation "2020-07-09T05:36:44.309" 
+05:36:44.310 [error] C3 propagation "2020-07-09T05:36:44.309" 
+05:36:44.310 [error] batched message propagation "2020-07-09T05:36:44.310" 
+05:36:44.342 [info] Application lasp started on node 'b@11.0.0.12'
+
+(b@11.0.0.12)1> erlang:set_cookie(node(),'RPJVCXYDYULBNZFEFPHJ').
+true
+(b@11.0.0.12)2> application:get_env(partisan, max_active_size).
+{ok,50}
+(b@11.0.0.12)3> application:get_env(partisan, max_passive_size).
+{ok,10}
+(b@11.0.0.12)4> application:get_env(partisan, min_active_size).
+{ok,9}
+(b@11.0.0.12)5> partisan_config:set(passive_view_shuffle_period, 1000000000).
+ok
+(b@11.0.0.12)6> partisan_config:get(passive_view_shuffle_period).
+1000000000
+(b@11.0.0.12)7> )7> 05:36:51.311 [error] C1 propagation "2020-07-09T05:36:51.311" 
+05:36:54.311 [error] Sending find_sub batch [] 
+05:36:54.311 [error] Sending find_sub_aq batch [] 
+05:36:54.311 [error] batched message propagation "2020-07-09T05:36:54.311" 
+05:36:58.313 [error] C1 propagation "2020-07-09T05:36:58.313" 
+05:37:04.313 [error] Sending find_sub batch [] 
+05:37:04.313 [error] Sending find_sub_aq batch [] 
+05:37:04.314 [error] batched message propagation "2020-07-09T05:37:04.313" 
+05:37:05.314 [error] C1 propagation "2020-07-09T05:37:05.314" 
+05:37:12.315 [error] C1 propagation "2020-07-09T05:37:12.315" 
+05:37:14.315 [error] Sending find_sub batch [] 
+05:37:14.315 [error] Sending find_sub_aq batch [] 
+05:37:14.315 [error] batched message propagation "2020-07-09T05:37:14.315" 
+05:37:19.316 [error] C1 propagation "2020-07-09T05:37:19.316" 
+05:37:24.311 [error] C2 propagation "2020-07-09T05:37:24.311" 
+05:37:24.380 [error] Sending find_sub batch [] 
+05:37:24.380 [error] Sending find_sub_aq batch [] 
+05:37:24.380 [error] batched message propagation "2020-07-09T05:37:24.380" 
+05:37:26.317 [error] C1 propagation "2020-07-09T05:37:26.317" 
+05:37:33.318 [error] C1 propagation "2020-07-09T05:37:33.318" 
+05:37:34.382 [error] Sending find_sub batch [] 
+05:37:34.382 [error] Sending find_sub_aq batch [] 
+05:37:34.382 [error] batched message propagation "2020-07-09T05:37:34.382" 
+05:37:40.320 [error] C1 propagation "2020-07-09T05:37:40.320" 
+05:37:44.383 [error] Sending find_sub batch [] 
+05:37:44.383 [error] Sending find_sub_aq batch [] 
+05:37:44.383 [error] batched message propagation "2020-07-09T05:37:44.383" 
+05:37:47.323 [error] C1 propagation "2020-07-09T05:37:47.323" 
+05:37:54.311 [error] C3 propagation "2020-07-09T05:37:54.311" 
+05:37:54.402 [error] C1 propagation "2020-07-09T05:37:54.402" 
+05:37:54.446 [error] Sending find_sub batch [] 
+05:37:54.446 [error] Sending find_sub_aq batch [] 
+05:37:54.446 [error] batched message propagation "2020-07-09T05:37:54.446" 
+lasp_peer_service:join('a@11.0.0.11').
+ok
+(b@11.0.0.12)8> 05:37:59.604 [error] Sending rate "c2" to 'a@11.0.0.11' 
+05:37:59.604 [error] Sending rate "c2" to 'c@11.0.0.13' 
+05:37:59.604 [error] Sending Subscription to 'c@11.0.0.13' case1 
+05:37:59.632 [error] Rate_subscribe_ack received from 'c@11.0.0.13' for rate "c2" 
+05:38:01.403 [error] C1 propagation "2020-07-09T05:38:01.403" 
+lasp_peer_service:members().
+{ok,['a@11.0.0.11','c@11.0.0.13','b@11.0.0.12']}
+(b@11.0.0.12)9> 05:38:04.313 [error] C2 propagation "2020-07-09T05:38:04.313" 
+05:38:04.357 [error] LASPVIN received find_sub Id: "c@11.0.0.13c1" From: 'c@11.0.0.13' Hop:1 
+05:38:04.422 [error] Checking sub_exists for Id:"c@11.0.0.13c1" From:'c@11.0.0.13' Hop:1 
+05:38:04.507 [error] Request Id "c@11.0.0.13c1" is from a Peer directly connected
+05:38:04.508 [error] Forwarding Req Id "c@11.0.0.13c1" to Peers RcvHop:1 IncHop:2 
+05:38:04.606 [error] Forwarding ReqId "c@11.0.0.13c1" to Peer:'a@11.0.0.11' Hop:2 
+05:38:04.606 [error] LASPVIN Request forwarded~n
+05:38:04.607 [error] Sending find_sub batch [{'b@11.0.0.12',"c1","c@11.0.0.13c1",2,'a@11.0.0.11'}] 
+05:38:04.608 [error] Sent find_sub control message from batch 'b@11.0.0.12' "c1" "c@11.0.0.13c1" 2 'a@11.0.0.11' 
+05:38:04.608 [error] Sending find_sub_aq batch [] 
+05:38:04.608 [error] batched message propagation "2020-07-09T05:38:04.608" 
+lasp_peer_service:join('a@11.0.0.11').
+ok
+(b@11.0.0.12)10> 05:38:08.404 [error] C1 propagation "2020-07-09T05:38:08.404" 
+lasp_peer_service:members().
+{ok,['a@11.0.0.11','c@11.0.0.13','b@11.0.0.12']}
+(b@11.0.0.12)11> 05:38:14.610 [error] Sending find_sub batch [] 
+05:38:14.610 [error] Sending find_sub_aq batch [] 
+05:38:14.610 [error] batched message propagation "2020-07-09T05:38:14.610" 
+05:38:15.405 [error] C1 propagation "2020-07-09T05:38:15.405" 
+05:38:21.158 [error] LASPVIN received find_sub Id: "e@11.0.0.15c1" From: 'a@11.0.0.11' Hop:2 
+05:38:21.202 [error] Checking sub_exists for Id:"e@11.0.0.15c1" From:'a@11.0.0.11' Hop:2 
+05:38:21.277 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:38:21.277 [error] LASPVIN found the peer at "2020-07-09T05:38:21.277" for ID: "e@11.0.0.15c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:38:21.280 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "e@11.0.0.15c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:38:21.280 [error] Forwarding Req Id "e@11.0.0.15c1" to Peers RcvHop:2 IncHop:3 
+05:38:21.338 [error] LASPVIN received find_sub Id: "c@11.0.0.13c1" From: 'a@11.0.0.11' Hop:2 
+05:38:21.411 [error] Checking sub_exists for Id:"c@11.0.0.13c1" From:'a@11.0.0.11' Hop:2 
+05:38:21.414 [error] Hop 2 for Id "c@11.0.0.13c1" is more than existing 1...Skipping
+05:38:21.414 [error] LASPVIN Request forwarded~n
+05:38:21.414 [error] LASPVIN received find_sub Id: "i@10.0.0.19c1" From: 'a@11.0.0.11' Hop:3 
+05:38:21.417 [error] Checking sub_exists for Id:"i@10.0.0.19c1" From:'a@11.0.0.11' Hop:3 
+05:38:21.487 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:38:21.487 [error] LASPVIN found the peer at "2020-07-09T05:38:21.487" for ID: "i@10.0.0.19c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:38:21.490 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "i@10.0.0.19c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:38:21.490 [error] Forwarding Req Id "i@10.0.0.19c1" to Peers RcvHop:3 IncHop:4 
+05:38:21.559 [error] LASPVIN received find_sub Id: "j@12.0.0.20c1" From: 'a@11.0.0.11' Hop:3 
+05:38:21.715 [error] Checking sub_exists for Id:"j@12.0.0.20c1" From:'a@11.0.0.11' Hop:3 
+05:38:21.899 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:38:21.899 [error] LASPVIN found the peer at "2020-07-09T05:38:21.899" for ID: "j@12.0.0.20c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:38:21.902 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "j@12.0.0.20c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:38:21.902 [error] Forwarding Req Id "j@12.0.0.20c1" to Peers RcvHop:3 IncHop:4 
+05:38:21.969 [error] LASPVIN received find_sub Id: "i@12.0.0.19c1" From: 'a@11.0.0.11' Hop:3 
+05:38:22.031 [error] Checking sub_exists for Id:"i@12.0.0.19c1" From:'a@11.0.0.11' Hop:3 
+05:38:22.188 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:38:22.189 [error] LASPVIN found the peer at "2020-07-09T05:38:22.188" for ID: "i@12.0.0.19c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:38:22.191 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "i@12.0.0.19c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:38:22.191 [error] Forwarding Req Id "i@12.0.0.19c1" to Peers RcvHop:3 IncHop:4 
+05:38:22.271 [error] LASPVIN received find_sub Id: "c@19.0.0.13c1" From: 'a@11.0.0.11' Hop:3 
+05:38:22.370 [error] Checking sub_exists for Id:"c@19.0.0.13c1" From:'a@11.0.0.11' Hop:3 
+05:38:22.660 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:38:22.660 [error] LASPVIN found the peer at "2020-07-09T05:38:22.660" for ID: "c@19.0.0.13c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:38:22.663 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "c@19.0.0.13c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:38:22.663 [error] Forwarding Req Id "c@19.0.0.13c1" to Peers RcvHop:3 IncHop:4 
+05:38:22.711 [error] LASPVIN received find_sub Id: "i@19.0.0.19c1" From: 'a@11.0.0.11' Hop:3 
+05:38:22.714 [error] Checking sub_exists for Id:"i@19.0.0.19c1" From:'a@11.0.0.11' Hop:3 
+05:38:22.793 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:38:22.793 [error] LASPVIN found the peer at "2020-07-09T05:38:22.793" for ID: "i@19.0.0.19c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:38:22.796 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "i@19.0.0.19c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:38:22.796 [error] Forwarding Req Id "i@19.0.0.19c1" to Peers RcvHop:3 IncHop:4 
+05:38:22.833 [error] LASPVIN received find_sub Id: "i@16.0.0.19c1" From: 'a@11.0.0.11' Hop:3 
+05:38:22.836 [error] Checking sub_exists for Id:"i@16.0.0.19c1" From:'a@11.0.0.11' Hop:3 
+05:38:22.906 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:38:22.906 [error] LASPVIN found the peer at "2020-07-09T05:38:22.906" for ID: "i@16.0.0.19c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:38:22.909 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "i@16.0.0.19c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:38:22.909 [error] Forwarding Req Id "i@16.0.0.19c1" to Peers RcvHop:3 IncHop:4 
+05:38:22.973 [error] LASPVIN received find_sub Id: "j@16.0.0.20c1" From: 'a@11.0.0.11' Hop:3 
+05:38:22.975 [error] Checking sub_exists for Id:"j@16.0.0.20c1" From:'a@11.0.0.11' Hop:3 
+05:38:23.072 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:38:23.072 [error] LASPVIN found the peer at "2020-07-09T05:38:23.723" for ID: "j@16.0.0.20c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:38:23.075 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "j@16.0.0.20c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:38:23.075 [error] Forwarding Req Id "j@16.0.0.20c1" to Peers RcvHop:3 IncHop:4 
+05:38:23.155 [error] LASPVIN received find_sub Id: "c@17.0.0.13c1" From: 'a@11.0.0.11' Hop:4 
+05:38:23.158 [error] Checking sub_exists for Id:"c@17.0.0.13c1" From:'a@11.0.0.11' Hop:4 
+05:38:23.240 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:38:24.508 [error] LASPVIN found the peer at "2020-07-09T05:38:24.508" for ID: "c@17.0.0.13c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:38:24.598 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "c@17.0.0.13c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:38:24.598 [error] Forwarding Req Id "c@17.0.0.13c1" to Peers RcvHop:4 IncHop:5 
+05:38:24.764 [error] LASPVIN received find_sub Id: "f@14.0.0.16c1" From: 'a@11.0.0.11' Hop:3 
+05:38:24.830 [error] Checking sub_exists for Id:"f@14.0.0.16c1" From:'a@11.0.0.11' Hop:3 
+05:38:24.951 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:38:24.951 [error] LASPVIN found the peer at "2020-07-09T05:38:24.951" for ID: "f@14.0.0.16c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:38:25.005 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "f@14.0.0.16c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:38:25.005 [error] Forwarding Req Id "f@14.0.0.16c1" to Peers RcvHop:3 IncHop:4 
+05:38:25.191 [error] LASPVIN received find_sub Id: "i@14.0.0.19c1" From: 'a@11.0.0.11' Hop:3 
+05:38:25.194 [error] Checking sub_exists for Id:"i@14.0.0.19c1" From:'a@11.0.0.11' Hop:3 
+05:38:25.312 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:38:25.312 [error] LASPVIN found the peer at "2020-07-09T05:38:25.312" for ID: "i@14.0.0.19c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:38:25.315 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "i@14.0.0.19c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:38:25.315 [error] Forwarding Req Id "i@14.0.0.19c1" to Peers RcvHop:3 IncHop:4 
+05:38:25.420 [error] LASPVIN received find_sub Id: "j@14.0.0.20c1" From: 'a@11.0.0.11' Hop:3 
+05:38:25.437 [error] Checking sub_exists for Id:"j@14.0.0.20c1" From:'a@11.0.0.11' Hop:3 
+05:38:25.815 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:38:25.815 [error] LASPVIN found the peer at "2020-07-09T05:38:25.815" for ID: "j@14.0.0.20c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:38:25.818 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "j@14.0.0.20c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:38:25.818 [error] Forwarding Req Id "j@14.0.0.20c1" to Peers RcvHop:3 IncHop:4 
+05:38:25.886 [error] LASPVIN received find_sub Id: "e@14.0.0.15c1" From: 'a@11.0.0.11' Hop:3 
+05:38:25.945 [error] Checking sub_exists for Id:"e@14.0.0.15c1" From:'a@11.0.0.11' Hop:3 
+05:38:26.221 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:38:26.221 [error] LASPVIN found the peer at "2020-07-09T05:38:26.221" for ID: "e@14.0.0.15c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:38:26.309 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "e@14.0.0.15c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:38:26.309 [error] Forwarding Req Id "e@14.0.0.15c1" to Peers RcvHop:3 IncHop:4 
+05:38:26.539 [error] LASPVIN received find_sub Id: "d@14.0.0.14c1" From: 'a@11.0.0.11' Hop:3 
+05:38:26.574 [error] Checking sub_exists for Id:"d@14.0.0.14c1" From:'a@11.0.0.11' Hop:3 
+05:38:26.634 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:38:26.634 [error] LASPVIN found the peer at "2020-07-09T05:38:26.634" for ID: "d@14.0.0.14c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:38:26.665 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "d@14.0.0.14c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:38:26.665 [error] Forwarding Req Id "d@14.0.0.14c1" to Peers RcvHop:3 IncHop:4 
+05:38:26.740 [error] C1 propagation "2020-07-09T05:38:26.739" 
+05:38:26.740 [error] Sending find_sub batch [] 
+05:38:26.764 [error] Sending find_sub_aq batch [{"e@11.0.0.15c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"j@12.0.0.20c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"i@14.0.0.19c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"d@14.0.0.14c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"j@16.0.0.20c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"i@19.0.0.19c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"i@16.0.0.19c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"c@17.0.0.13c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"i@12.0.0.19c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"j@14.0.0.20c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"i@10.0.0.19c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"c@19.0.0.13c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"e@14.0.0.15c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"f@14.0.0.16c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'}] 
+05:38:26.765 [error] Sent find_sub_aq control message for "c@17.0.0.13c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:38:26.765 [error] Sent find_sub_aq control message for "c@19.0.0.13c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:38:26.765 [error] Sent find_sub_aq control message for "d@14.0.0.14c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:38:26.765 [error] Sent find_sub_aq control message for "e@11.0.0.15c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:38:26.765 [error] Sent find_sub_aq control message for "e@14.0.0.15c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:38:26.765 [error] Sent find_sub_aq control message for "f@14.0.0.16c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:38:26.765 [error] Sent find_sub_aq control message for "i@10.0.0.19c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:38:26.765 [error] Sent find_sub_aq control message for "i@12.0.0.19c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:38:26.765 [error] Sent find_sub_aq control message for "i@14.0.0.19c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:38:26.766 [error] Sent find_sub_aq control message for "i@16.0.0.19c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:38:26.766 [error] Sent find_sub_aq control message for "i@19.0.0.19c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:38:26.766 [error] Sent find_sub_aq control message for "j@12.0.0.20c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:38:26.766 [error] Sent find_sub_aq control message for "j@14.0.0.20c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:38:26.766 [error] Sent find_sub_aq control message for "j@16.0.0.20c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:38:26.766 [error] batched message propagation "2020-07-09T05:38:26.766" 
+05:38:31.997 [error] LASPVIN received find_sub Id: "e@11.0.0.15c1" From: 'c@11.0.0.13' Hop:3 
+05:38:31.997 [error] LASPVIN find_sub_aq exists for this find_sub "e@11.0.0.15c1" 
+05:38:33.741 [error] C1 propagation "2020-07-09T05:38:33.741" 
+05:38:36.768 [error] Sending find_sub batch [] 
+05:38:36.768 [error] Sending find_sub_aq batch [] 
+05:38:36.768 [error] batched message propagation "2020-07-09T05:38:36.768" 
+05:38:40.742 [error] C1 propagation "2020-07-09T05:38:40.742" 
+05:38:44.315 [error] C2 propagation "2020-07-09T05:38:44.315" 
+lasp_delta_based_synchronization_backend:get_members(peer_rates).
+[{'a@11.0.0.11',"c2"},
+ {'c@11.0.0.13',"c1"},
+ {"self_rate","c2"},
+ {"subscription",'c@11.0.0.13'}]
+(b@11.0.0.12)12> 05:38:46.769 [error] Sending find_sub batch [] 
+05:38:46.769 [error] Sending find_sub_aq batch [] 
+05:38:46.769 [error] batched message propagation "2020-07-09T05:38:46.769" 
+05:38:47.744 [error] C1 propagation "2020-07-09T05:38:47.744" 
+05:38:52.333 [error] Received new rate from 'a@11.0.0.11' with new rate "c1"
+05:38:52.333 [error] LASPVIN found the peer at "2020-07-09T05:38:52.333" for ID: "c@11.0.0.13c1" ToNode: 'a@11.0.0.11' Via:'b@11.0.0.12' 
+05:38:52.336 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "c@11.0.0.13c1" ToNode:'a@11.0.0.11' From:'b@11.0.0.12' to 'c@11.0.0.13' HopCount:1 
+05:38:52.336 [error] LASPVIN found the peer at "2020-07-09T05:38:52.336" for ID: "e@11.0.0.15c1" ToNode: 'a@11.0.0.11' Via:'b@11.0.0.12' 
+05:38:52.336 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:38:52.336 [error] Sub_aq exists for Id:"e@11.0.0.15c1" but HopCount:1 is lower than existing hopcount:2 .. Forwarding request 
+05:38:52.337 [error] LASPVIN found the peer at "2020-07-09T05:38:52.336" for ID: "i@10.0.0.19c1" ToNode: 'a@11.0.0.11' Via:'b@11.0.0.12' 
+05:38:52.337 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:38:52.337 [error] Sub_aq exists for Id:"i@10.0.0.19c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:38:52.337 [error] LASPVIN found the peer at "2020-07-09T05:38:52.337" for ID: "j@12.0.0.20c1" ToNode: 'a@11.0.0.11' Via:'b@11.0.0.12' 
+05:38:52.337 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:38:52.337 [error] Sub_aq exists for Id:"j@12.0.0.20c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:38:52.337 [error] LASPVIN found the peer at "2020-07-09T05:38:52.337" for ID: "i@12.0.0.19c1" ToNode: 'a@11.0.0.11' Via:'b@11.0.0.12' 
+05:38:52.337 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:38:52.337 [error] Sub_aq exists for Id:"i@12.0.0.19c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:38:52.337 [error] LASPVIN found the peer at "2020-07-09T05:38:52.337" for ID: "c@19.0.0.13c1" ToNode: 'a@11.0.0.11' Via:'b@11.0.0.12' 
+05:38:52.337 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:38:52.337 [error] Sub_aq exists for Id:"c@19.0.0.13c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:38:52.338 [error] LASPVIN found the peer at "2020-07-09T05:38:52.338" for ID: "i@19.0.0.19c1" ToNode: 'a@11.0.0.11' Via:'b@11.0.0.12' 
+05:38:52.338 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:38:52.338 [error] Sub_aq exists for Id:"i@19.0.0.19c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:38:52.338 [error] LASPVIN found the peer at "2020-07-09T05:38:52.338" for ID: "i@16.0.0.19c1" ToNode: 'a@11.0.0.11' Via:'b@11.0.0.12' 
+05:38:52.338 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:38:52.338 [error] Sub_aq exists for Id:"i@16.0.0.19c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:38:52.338 [error] LASPVIN found the peer at "2020-07-09T05:38:52.338" for ID: "j@16.0.0.20c1" ToNode: 'a@11.0.0.11' Via:'b@11.0.0.12' 
+05:38:52.338 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:38:52.338 [error] Sub_aq exists for Id:"j@16.0.0.20c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:38:52.338 [error] LASPVIN found the peer at "2020-07-09T05:38:52.338" for ID: "c@17.0.0.13c1" ToNode: 'a@11.0.0.11' Via:'b@11.0.0.12' 
+05:38:52.338 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:38:52.338 [error] Sub_aq exists for Id:"c@17.0.0.13c1" but HopCount:1 is lower than existing hopcount:4 .. Forwarding request 
+05:38:52.338 [error] LASPVIN found the peer at "2020-07-09T05:38:52.338" for ID: "f@14.0.0.16c1" ToNode: 'a@11.0.0.11' Via:'b@11.0.0.12' 
+05:38:52.338 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:38:52.339 [error] Sub_aq exists for Id:"f@14.0.0.16c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:38:52.339 [error] LASPVIN found the peer at "2020-07-09T05:38:52.339" for ID: "i@14.0.0.19c1" ToNode: 'a@11.0.0.11' Via:'b@11.0.0.12' 
+05:38:52.339 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:38:52.339 [error] Sub_aq exists for Id:"i@14.0.0.19c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:38:52.339 [error] LASPVIN found the peer at "2020-07-09T05:38:52.339" for ID: "j@14.0.0.20c1" ToNode: 'a@11.0.0.11' Via:'b@11.0.0.12' 
+05:38:52.339 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:38:52.339 [error] Sub_aq exists for Id:"j@14.0.0.20c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:38:52.339 [error] LASPVIN found the peer at "2020-07-09T05:38:52.339" for ID: "e@14.0.0.15c1" ToNode: 'a@11.0.0.11' Via:'b@11.0.0.12' 
+05:38:52.339 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:38:52.339 [error] Sub_aq exists for Id:"e@14.0.0.15c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:38:52.339 [error] LASPVIN found the peer at "2020-07-09T05:38:52.339" for ID: "d@14.0.0.14c1" ToNode: 'a@11.0.0.11' Via:'b@11.0.0.12' 
+05:38:52.339 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:38:52.339 [error] Sub_aq exists for Id:"d@14.0.0.14c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:38:54.745 [error] C1 propagation "2020-07-09T05:38:54.745" 
+05:38:56.770 [error] Sending find_sub batch [] 
+05:38:56.771 [error] Sending find_sub_aq batch [{"e@11.0.0.15c1",'a@11.0.0.11','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"j@12.0.0.20c1",'a@11.0.0.11','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"i@14.0.0.19c1",'a@11.0.0.11','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"d@14.0.0.14c1",'a@11.0.0.11','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"j@16.0.0.20c1",'a@11.0.0.11','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"i@19.0.0.19c1",'a@11.0.0.11','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"c@11.0.0.13c1",'a@11.0.0.11','b@11.0.0.12','b@11.0.0.12',1,'c@11.0.0.13'},{"i@16.0.0.19c1",'a@11.0.0.11','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"c@17.0.0.13c1",'a@11.0.0.11','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"i@12.0.0.19c1",'a@11.0.0.11','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"j@14.0.0.20c1",'a@11.0.0.11','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"i@10.0.0.19c1",'a@11.0.0.11','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"c@19.0.0.13c1",'a@11.0.0.11','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"e@14.0.0.15c1",'a@11.0.0.11','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"f@14.0.0.16c1",'a@11.0.0.11','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'}] 
+05:38:56.840 [error] Sent find_sub_aq control message for "c@11.0.0.13c1" ['a@11.0.0.11'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'c@11.0.0.13' 
+05:38:56.840 [error] Sent find_sub_aq control message for "c@17.0.0.13c1" ['a@11.0.0.11'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:38:56.873 [error] Sent find_sub_aq control message for "c@19.0.0.13c1" ['a@11.0.0.11'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:38:56.873 [error] Sent find_sub_aq control message for "d@14.0.0.14c1" ['a@11.0.0.11'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:38:56.874 [error] Sent find_sub_aq control message for "e@11.0.0.15c1" ['a@11.0.0.11'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:38:56.874 [error] Sent find_sub_aq control message for "e@14.0.0.15c1" ['a@11.0.0.11'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:38:56.874 [error] Sent find_sub_aq control message for "f@14.0.0.16c1" ['a@11.0.0.11'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:38:56.874 [error] Sent find_sub_aq control message for "i@10.0.0.19c1" ['a@11.0.0.11'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:38:56.874 [error] Sent find_sub_aq control message for "i@12.0.0.19c1" ['a@11.0.0.11'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:38:56.874 [error] Sent find_sub_aq control message for "i@14.0.0.19c1" ['a@11.0.0.11'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:38:56.875 [error] Sent find_sub_aq control message for "i@16.0.0.19c1" ['a@11.0.0.11'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:38:56.875 [error] Sent find_sub_aq control message for "i@19.0.0.19c1" ['a@11.0.0.11'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:38:56.875 [error] Sent find_sub_aq control message for "j@12.0.0.20c1" ['a@11.0.0.11'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:38:56.875 [error] Sent find_sub_aq control message for "j@14.0.0.20c1" ['a@11.0.0.11'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:38:56.875 [error] Sent find_sub_aq control message for "j@16.0.0.20c1" ['a@11.0.0.11'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:38:56.875 [error] batched message propagation "2020-07-09T05:38:56.875" 
+05:38:58.047 [error] FORMAT ERROR: "Received rate refresh request from ~p for rate ~p ~n" ['c@11.0.0.13']
+05:39:02.112 [error] Sending rate "c2" to 'c@11.0.0.13' 
+05:39:02.587 [error] C1 propagation "2020-07-09T05:39:02.587" 
+05:39:03.050 [error] LASPVIN found the peer at "2020-07-09T05:39:03.499" for ID: "e@11.0.0.15c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:03.050 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:39:03.050 [error] Sub_aq exists for Id:"e@11.0.0.15c1" but HopCount:1 is lower than existing hopcount:2 .. Forwarding request 
+05:39:03.050 [error] LASPVIN found the peer at "2020-07-09T05:39:03.503" for ID: "i@10.0.0.19c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:03.050 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:39:03.050 [error] Sub_aq exists for Id:"i@10.0.0.19c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:39:03.050 [error] LASPVIN found the peer at "2020-07-09T05:39:03.505" for ID: "j@12.0.0.20c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:03.050 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:39:03.050 [error] Sub_aq exists for Id:"j@12.0.0.20c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:39:03.050 [error] LASPVIN found the peer at "2020-07-09T05:39:03.507" for ID: "i@12.0.0.19c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:03.050 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:39:03.050 [error] Sub_aq exists for Id:"i@12.0.0.19c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:39:03.050 [error] LASPVIN found the peer at "2020-07-09T05:39:03.508" for ID: "c@19.0.0.13c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:03.051 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:39:03.051 [error] Sub_aq exists for Id:"c@19.0.0.13c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:39:03.051 [error] LASPVIN found the peer at "2020-07-09T05:39:03.511" for ID: "i@19.0.0.19c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:03.051 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:39:03.051 [error] Sub_aq exists for Id:"i@19.0.0.19c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:39:03.051 [error] LASPVIN found the peer at "2020-07-09T05:39:03.513" for ID: "i@16.0.0.19c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:03.051 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:39:03.051 [error] Sub_aq exists for Id:"i@16.0.0.19c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:39:03.051 [error] LASPVIN found the peer at "2020-07-09T05:39:03.515" for ID: "j@16.0.0.20c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:03.051 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:39:03.051 [error] Sub_aq exists for Id:"j@16.0.0.20c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:39:03.051 [error] LASPVIN found the peer at "2020-07-09T05:39:03.517" for ID: "c@17.0.0.13c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:03.051 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:39:03.051 [error] Sub_aq exists for Id:"c@17.0.0.13c1" but HopCount:1 is lower than existing hopcount:4 .. Forwarding request 
+05:39:03.051 [error] LASPVIN found the peer at "2020-07-09T05:39:03.518" for ID: "f@14.0.0.16c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:03.051 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:39:03.052 [error] Sub_aq exists for Id:"f@14.0.0.16c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:39:03.052 [error] LASPVIN found the peer at "2020-07-09T05:39:03.520" for ID: "i@14.0.0.19c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:03.052 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:39:03.052 [error] Sub_aq exists for Id:"i@14.0.0.19c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:39:03.052 [error] LASPVIN found the peer at "2020-07-09T05:39:03.522" for ID: "j@14.0.0.20c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:03.052 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:39:03.052 [error] Sub_aq exists for Id:"j@14.0.0.20c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:39:03.052 [error] LASPVIN found the peer at "2020-07-09T05:39:03.524" for ID: "e@14.0.0.15c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:03.052 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:39:03.052 [error] Sub_aq exists for Id:"e@14.0.0.15c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:39:03.052 [error] LASPVIN found the peer at "2020-07-09T05:39:03.526" for ID: "d@14.0.0.14c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:03.052 [error] LASPVIN find_sub_aq Id exists not forwarding found_sub
+05:39:03.052 [error] Sub_aq exists for Id:"d@14.0.0.14c1" but HopCount:1 is lower than existing hopcount:3 .. Forwarding request 
+05:39:04.312 [error] C3 propagation "2020-07-09T05:39:04.312" 
+05:39:06.877 [error] Sending find_sub batch [] 
+05:39:06.877 [error] Sending find_sub_aq batch [{"e@11.0.0.15c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"j@12.0.0.20c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"i@14.0.0.19c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"d@14.0.0.14c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"j@16.0.0.20c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"i@19.0.0.19c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"i@16.0.0.19c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"c@17.0.0.13c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"i@12.0.0.19c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"j@14.0.0.20c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"i@10.0.0.19c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"c@19.0.0.13c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"e@14.0.0.15c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'},{"f@14.0.0.16c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',2,'a@11.0.0.11'}] 
+05:39:06.878 [error] Sent find_sub_aq control message for "c@17.0.0.13c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:39:06.878 [error] Sent find_sub_aq control message for "c@19.0.0.13c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:39:06.878 [error] Sent find_sub_aq control message for "d@14.0.0.14c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:39:06.878 [error] Sent find_sub_aq control message for "e@11.0.0.15c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:39:06.878 [error] Sent find_sub_aq control message for "e@14.0.0.15c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:39:06.878 [error] Sent find_sub_aq control message for "f@14.0.0.16c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:39:06.879 [error] Sent find_sub_aq control message for "i@10.0.0.19c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:39:06.879 [error] Sent find_sub_aq control message for "i@12.0.0.19c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:39:06.879 [error] Sent find_sub_aq control message for "i@14.0.0.19c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:39:06.879 [error] Sent find_sub_aq control message for "i@16.0.0.19c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:39:06.879 [error] Sent find_sub_aq control message for "i@19.0.0.19c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:39:06.879 [error] Sent find_sub_aq control message for "j@12.0.0.20c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:39:06.879 [error] Sent find_sub_aq control message for "j@14.0.0.20c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:39:06.880 [error] Sent find_sub_aq control message for "j@16.0.0.20c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 2 'a@11.0.0.11' 
+05:39:06.880 [error] batched message propagation "2020-07-09T05:39:06.880" 
+05:39:09.589 [error] C1 propagation "2020-07-09T05:39:09.589" 
+05:39:12.003 [error] LASPVIN received find_sub Id: "c@11.0.0.13c1" From: 'c@11.0.0.13' Hop:1 
+05:39:12.004 [error] LASPVIN find_sub_aq exists for this find_sub "c@11.0.0.13c1" 
+05:39:16.591 [error] C1 propagation "2020-07-09T05:39:16.591" 
+05:39:16.881 [error] Sending find_sub batch [] 
+05:39:16.881 [error] Sending find_sub_aq batch [] 
+05:39:16.881 [error] batched message propagation "2020-07-09T05:39:16.881" 
+05:39:23.593 [error] C1 propagation "2020-07-09T05:39:23.593" 
+05:39:24.316 [error] C2 propagation "2020-07-09T05:39:24.316" 
+05:39:26.883 [error] Sending find_sub batch [] 
+05:39:26.883 [error] Sending find_sub_aq batch [] 
+05:39:26.883 [error] batched message propagation "2020-07-09T05:39:26.883" 
+05:39:30.594 [error] C1 propagation "2020-07-09T05:39:30.594" 
+05:39:36.885 [error] Sending find_sub batch [] 
+05:39:36.885 [error] Sending find_sub_aq batch [] 
+05:39:36.885 [error] batched message propagation "2020-07-09T05:39:36.885" 
+05:39:37.595 [error] C1 propagation "2020-07-09T05:39:37.595" 
+05:39:44.597 [error] C1 propagation "2020-07-09T05:39:44.597" 
+05:39:46.887 [error] Sending find_sub batch [] 
+05:39:46.887 [error] Sending find_sub_aq batch [] 
+05:39:46.887 [error] batched message propagation "2020-07-09T05:39:46.887" 
+05:39:50.184 [error] LASPVIN received find_sub Id: "d@15.0.0.14c1" From: 'a@11.0.0.11' Hop:3 
+05:39:50.239 [error] Checking sub_exists for Id:"d@15.0.0.14c1" From:'a@11.0.0.11' Hop:3 
+05:39:50.351 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:39:50.351 [error] LASPVIN found the peer at "2020-07-09T05:39:50.351" for ID: "d@15.0.0.14c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:50.451 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "d@15.0.0.14c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:39:50.451 [error] Forwarding Req Id "d@15.0.0.14c1" to Peers RcvHop:3 IncHop:4 
+05:39:50.537 [error] LASPVIN received find_sub Id: "f@11.0.0.16c1" From: 'a@11.0.0.11' Hop:2 
+05:39:50.644 [error] Checking sub_exists for Id:"f@11.0.0.16c1" From:'a@11.0.0.11' Hop:2 
+05:39:50.749 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:39:50.749 [error] LASPVIN found the peer at "2020-07-09T05:39:50.749" for ID: "f@11.0.0.16c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:50.802 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "f@11.0.0.16c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:39:50.802 [error] Forwarding Req Id "f@11.0.0.16c1" to Peers RcvHop:2 IncHop:3 
+05:39:50.880 [error] LASPVIN received find_sub Id: "j@11.0.0.20c1" From: 'a@11.0.0.11' Hop:2 
+05:39:50.883 [error] Checking sub_exists for Id:"j@11.0.0.20c1" From:'a@11.0.0.11' Hop:2 
+05:39:51.022 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:39:51.023 [error] LASPVIN found the peer at "2020-07-09T05:39:51.222" for ID: "j@11.0.0.20c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:51.064 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "j@11.0.0.20c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:39:51.064 [error] Forwarding Req Id "j@11.0.0.20c1" to Peers RcvHop:2 IncHop:3 
+05:39:51.102 [error] LASPVIN received find_sub Id: "d@11.0.0.14c1" From: 'a@11.0.0.11' Hop:2 
+05:39:51.105 [error] Checking sub_exists for Id:"d@11.0.0.14c1" From:'a@11.0.0.11' Hop:2 
+05:39:51.181 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:39:51.181 [error] LASPVIN found the peer at "2020-07-09T05:39:51.181" for ID: "d@11.0.0.14c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:39:51.184 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "d@11.0.0.14c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:39:51.184 [error] Forwarding Req Id "d@11.0.0.14c1" to Peers RcvHop:2 IncHop:3 
+05:39:51.622 [error] C1 propagation "2020-07-09T05:39:51.622" 
+05:39:56.889 [error] Sending find_sub batch [] 
+05:39:56.889 [error] Sending find_sub_aq batch [{"f@11.0.0.16c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"d@11.0.0.14c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"d@15.0.0.14c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"j@11.0.0.20c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'}] 
+05:39:56.890 [error] Sent find_sub_aq control message for "d@11.0.0.14c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:39:56.890 [error] Sent find_sub_aq control message for "d@15.0.0.14c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:39:56.891 [error] Sent find_sub_aq control message for "f@11.0.0.16c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:39:56.891 [error] Sent find_sub_aq control message for "j@11.0.0.20c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:39:56.892 [error] batched message propagation "2020-07-09T05:39:56.892" 
+05:39:58.623 [error] C1 propagation "2020-07-09T05:39:58.623" 
+05:40:04.317 [error] C2 propagation "2020-07-09T05:40:04.317" 
+05:40:05.625 [error] C1 propagation "2020-07-09T05:40:05.625" 
+05:40:06.893 [error] Sending find_sub batch [] 
+05:40:06.893 [error] Sending find_sub_aq batch [] 
+05:40:06.893 [error] batched message propagation "2020-07-09T05:40:06.893" 
+05:40:12.626 [error] C1 propagation "2020-07-09T05:40:12.626" 
+05:40:15.981 [error] C3 propagation "2020-07-09T05:40:15.981" 
+05:40:16.894 [error] Sending find_sub batch [] 
+05:40:16.894 [error] Sending find_sub_aq batch [] 
+05:40:16.894 [error] batched message propagation "2020-07-09T05:40:16.894" 
+05:40:19.627 [error] C1 propagation "2020-07-09T05:40:19.627" 
+05:40:26.629 [error] C1 propagation "2020-07-09T05:40:26.629" 
+05:40:26.896 [error] Sending find_sub batch [] 
+05:40:26.896 [error] Sending find_sub_aq batch [] 
+05:40:26.896 [error] batched message propagation "2020-07-09T05:40:26.896" 
+05:40:33.630 [error] C1 propagation "2020-07-09T05:40:33.630" 
+05:40:36.898 [error] Sending find_sub batch [] 
+05:40:36.898 [error] Sending find_sub_aq batch [] 
+05:40:36.898 [error] batched message propagation "2020-07-09T05:40:36.898" 
+05:40:40.631 [error] C1 propagation "2020-07-09T05:40:40.631" 
+05:40:44.319 [error] C2 propagation "2020-07-09T05:40:44.319" 
+05:40:46.900 [error] Sending find_sub batch [] 
+05:40:46.900 [error] Sending find_sub_aq batch [] 
+05:40:46.900 [error] batched message propagation "2020-07-09T05:40:46.900" 
+05:40:47.632 [error] C1 propagation "2020-07-09T05:40:47.632" 
+05:40:54.634 [error] C1 propagation "2020-07-09T05:40:54.634" 
+05:40:56.901 [error] Sending find_sub batch [] 
+05:40:56.901 [error] Sending find_sub_aq batch [] 
+05:40:56.901 [error] batched message propagation "2020-07-09T05:40:56.901" 
+05:41:01.635 [error] C1 propagation "2020-07-09T05:41:01.635" 
+05:41:06.903 [error] Sending find_sub batch [] 
+05:41:06.903 [error] Sending find_sub_aq batch [] 
+05:41:06.903 [error] batched message propagation "2020-07-09T05:41:06.903" 
+05:41:08.636 [error] C1 propagation "2020-07-09T05:41:08.636" 
+05:41:15.638 [error] C1 propagation "2020-07-09T05:41:15.638" 
+05:41:16.905 [error] Sending find_sub batch [] 
+05:41:16.905 [error] Sending find_sub_aq batch [] 
+05:41:16.905 [error] batched message propagation "2020-07-09T05:41:16.905" 
+05:41:22.639 [error] C1 propagation "2020-07-09T05:41:22.639" 
+05:41:24.320 [error] C2 propagation "2020-07-09T05:41:24.320" 
+05:41:25.983 [error] C3 propagation "2020-07-09T05:41:25.983" 
+05:41:26.907 [error] Sending find_sub batch [] 
+05:41:26.907 [error] Sending find_sub_aq batch [] 
+05:41:26.907 [error] batched message propagation "2020-07-09T05:41:26.907" 
+05:41:29.641 [error] C1 propagation "2020-07-09T05:41:29.641" 
+05:41:36.643 [error] C1 propagation "2020-07-09T05:41:36.643" 
+05:41:36.908 [error] Sending find_sub batch [] 
+05:41:36.908 [error] Sending find_sub_aq batch [] 
+05:41:36.908 [error] batched message propagation "2020-07-09T05:41:36.908" 
+05:41:43.645 [error] C1 propagation "2020-07-09T05:41:43.645" 
+05:41:46.910 [error] Sending find_sub batch [] 
+05:41:46.910 [error] Sending find_sub_aq batch [] 
+05:41:46.910 [error] batched message propagation "2020-07-09T05:41:46.910" 
+05:41:50.647 [error] C1 propagation "2020-07-09T05:41:50.647" 
+05:41:56.912 [error] Sending find_sub batch [] 
+05:41:56.912 [error] Sending find_sub_aq batch [] 
+05:41:56.912 [error] batched message propagation "2020-07-09T05:41:56.912" 
+05:41:57.649 [error] C1 propagation "2020-07-09T05:41:57.649" 
+05:42:04.322 [error] C2 propagation "2020-07-09T05:42:04.322" 
+05:42:04.651 [error] C1 propagation "2020-07-09T05:42:04.651" 
+05:42:06.913 [error] Sending find_sub batch [] 
+05:42:06.913 [error] Sending find_sub_aq batch [] 
+05:42:06.913 [error] batched message propagation "2020-07-09T05:42:06.913" 
+05:42:11.652 [error] C1 propagation "2020-07-09T05:42:11.652" 
+05:42:16.915 [error] Sending find_sub batch [] 
+05:42:16.915 [error] Sending find_sub_aq batch [] 
+05:42:16.915 [error] batched message propagation "2020-07-09T05:42:16.915" 
+05:42:18.653 [error] C1 propagation "2020-07-09T05:42:18.653" 
+05:42:25.655 [error] C1 propagation "2020-07-09T05:42:25.655" 
+05:42:26.917 [error] Sending find_sub batch [] 
+05:42:26.917 [error] Sending find_sub_aq batch [] 
+05:42:26.917 [error] batched message propagation "2020-07-09T05:42:26.917" 
+05:42:32.656 [error] C1 propagation "2020-07-09T05:42:32.656" 
+05:42:35.985 [error] C3 propagation "2020-07-09T05:42:35.985" 
+05:42:36.919 [error] Sending find_sub batch [] 
+05:42:36.919 [error] Sending find_sub_aq batch [] 
+05:42:36.919 [error] batched message propagation "2020-07-09T05:42:36.919" 
+05:42:39.657 [error] C1 propagation "2020-07-09T05:42:39.657" 
+05:42:44.324 [error] C2 propagation "2020-07-09T05:42:44.324" 
+05:42:46.659 [error] C1 propagation "2020-07-09T05:42:46.659" 
+05:42:46.921 [error] Sending find_sub batch [] 
+05:42:46.921 [error] Sending find_sub_aq batch [] 
+05:42:46.921 [error] batched message propagation "2020-07-09T05:42:46.921" 
+05:42:53.661 [error] C1 propagation "2020-07-09T05:42:53.661" 
+05:42:56.923 [error] Sending find_sub batch [] 
+05:42:56.923 [error] Sending find_sub_aq batch [] 
+05:42:56.923 [error] batched message propagation "2020-07-09T05:42:56.923" 
+05:43:00.663 [error] C1 propagation "2020-07-09T05:43:00.663" 
+05:43:06.925 [error] Sending find_sub batch [] 
+05:43:06.925 [error] Sending find_sub_aq batch [] 
+05:43:06.925 [error] batched message propagation "2020-07-09T05:43:06.925" 
+05:43:07.665 [error] C1 propagation "2020-07-09T05:43:07.665" 
+05:43:14.667 [error] C1 propagation "2020-07-09T05:43:14.667" 
+05:43:16.927 [error] Sending find_sub batch [] 
+05:43:16.927 [error] Sending find_sub_aq batch [] 
+05:43:16.927 [error] batched message propagation "2020-07-09T05:43:16.927" 
+05:43:21.669 [error] C1 propagation "2020-07-09T05:43:21.669" 
+05:43:24.326 [error] C2 propagation "2020-07-09T05:43:24.326" 
+05:43:26.929 [error] Sending find_sub batch [] 
+05:43:26.929 [error] Sending find_sub_aq batch [] 
+05:43:26.929 [error] batched message propagation "2020-07-09T05:43:26.929" 
+05:43:28.671 [error] C1 propagation "2020-07-09T05:43:28.671" 
+05:43:35.672 [error] C1 propagation "2020-07-09T05:43:35.672" 
+05:43:36.930 [error] Sending find_sub batch [] 
+05:43:36.930 [error] Sending find_sub_aq batch [] 
+05:43:36.930 [error] batched message propagation "2020-07-09T05:43:36.930" 
+05:43:42.673 [error] C1 propagation "2020-07-09T05:43:42.673" 
+05:43:45.987 [error] C3 propagation "2020-07-09T05:43:45.987" 
+05:43:46.022 [error] LASPVIN received find_sub Id: "d@19.0.0.14c1" From: 'a@11.0.0.11' Hop:3 
+05:43:46.095 [error] Checking sub_exists for Id:"d@19.0.0.14c1" From:'a@11.0.0.11' Hop:3 
+05:43:46.171 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:43:46.171 [error] LASPVIN found the peer at "2020-07-09T05:43:46.171" for ID: "d@19.0.0.14c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:43:46.247 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "d@19.0.0.14c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:43:46.247 [error] Forwarding Req Id "d@19.0.0.14c1" to Peers RcvHop:3 IncHop:4 
+05:43:46.409 [error] LASPVIN received find_sub Id: "e@19.0.0.15c1" From: 'a@11.0.0.11' Hop:4 
+05:43:46.509 [error] Checking sub_exists for Id:"e@19.0.0.15c1" From:'a@11.0.0.11' Hop:4 
+05:43:46.546 [error] Id is not get_connections(): ['a@11.0.0.11','c@11.0.0.13']  
+05:43:46.546 [error] LASPVIN found the peer at "2020-07-09T05:43:46.546" for ID: "e@19.0.0.15c1" ToNode: 'c@11.0.0.13' Via:'b@11.0.0.12' 
+05:43:46.640 [error] LASPVINDEBUG Forwarding find_sub_aq for Id: "e@19.0.0.15c1" ToNode:'c@11.0.0.13' From:'b@11.0.0.12' to 'a@11.0.0.11' HopCount:1 
+05:43:46.641 [error] Forwarding Req Id "e@19.0.0.15c1" to Peers RcvHop:4 IncHop:5 
+05:43:46.931 [error] Sending find_sub batch [] 
+05:43:46.931 [error] Sending find_sub_aq batch [{"e@19.0.0.15c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'},{"d@19.0.0.14c1",'c@11.0.0.13','b@11.0.0.12','b@11.0.0.12',1,'a@11.0.0.11'}] 
+05:43:46.976 [error] Sent find_sub_aq control message for "d@19.0.0.14c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:43:46.976 [error] Sent find_sub_aq control message for "e@19.0.0.15c1" ['c@11.0.0.13'] 'b@11.0.0.12' 'b@11.0.0.12' 1 'a@11.0.0.11' 
+05:43:46.976 [error] batched message propagation "2020-07-09T05:43:46.976" 
+05:43:49.675 [error] C1 propagation "2020-07-09T05:43:49.675" 
+05:43:56.677 [error] C1 propagation "2020-07-09T05:43:56.677" 
+05:43:56.977 [error] Sending find_sub batch [] 
+05:43:56.977 [error] Sending find_sub_aq batch [] 
+05:43:56.977 [error] batched message propagation "2020-07-09T05:43:56.977" 
+05:44:03.678 [error] C1 propagation "2020-07-09T05:44:03.678" 
+05:44:04.327 [error] C2 propagation "2020-07-09T05:44:04.327" 
+05:44:06.979 [error] Sending find_sub batch [] 
+05:44:06.979 [error] Sending find_sub_aq batch [] 
+05:44:06.979 [error] batched message propagation "2020-07-09T05:44:06.979" 
+05:44:10.679 [error] C1 propagation "2020-07-09T05:44:10.679" 
+05:44:16.981 [error] Sending find_sub batch [] 
+05:44:16.981 [error] Sending find_sub_aq batch [] 
+05:44:16.981 [error] batched message propagation "2020-07-09T05:44:16.981" 
+05:44:17.680 [error] C1 propagation "2020-07-09T05:44:17.680" 
+05:44:24.682 [error] C1 propagation "2020-07-09T05:44:24.682" 
+05:44:26.983 [error] Sending find_sub batch [] 
+05:44:26.983 [error] Sending find_sub_aq batch [] 
+05:44:26.983 [error] batched message propagation "2020-07-09T05:44:26.983" 
+05:44:31.683 [error] C1 propagation "2020-07-09T05:44:31.683" 
+05:44:36.985 [error] Sending find_sub batch [] 
+05:44:36.985 [error] Sending find_sub_aq batch [] 
+05:44:36.985 [error] batched message propagation "2020-07-09T05:44:36.985" 
+05:44:38.684 [error] C1 propagation "2020-07-09T05:44:38.684" 
+05:44:44.329 [error] C2 propagation "2020-07-09T05:44:44.329" 
+05:44:45.686 [error] C1 propagation "2020-07-09T05:44:45.686" 
+05:44:46.987 [error] Sending find_sub batch [] 
+05:44:46.987 [error] Sending find_sub_aq batch [] 
+05:44:46.987 [error] batched message propagation "2020-07-09T05:44:46.987" 
+05:44:52.687 [error] C1 propagation "2020-07-09T05:44:52.687" 
+05:44:55.989 [error] C3 propagation "2020-07-09T05:44:55.989" 
+05:44:56.989 [error] Sending find_sub batch [] 
+05:44:56.989 [error] Sending find_sub_aq batch [] 
+05:44:56.989 [error] batched message propagation "2020-07-09T05:44:56.989" 
+05:44:59.688 [error] C1 propagation "2020-07-09T05:44:59.688" 
+05:45:06.690 [error] C1 propagation "2020-07-09T05:45:06.690" 
+05:45:06.991 [error] Sending find_sub batch [] 
+05:45:06.991 [error] Sending find_sub_aq batch [] 
+05:45:06.991 [error] batched message propagation "2020-07-09T05:45:06.991" 
+05:45:13.691 [error] C1 propagation "2020-07-09T05:45:13.691" 
+05:45:16.993 [error] Sending find_sub batch [] 
+05:45:16.993 [error] Sending find_sub_aq batch [] 
+05:45:16.993 [error] batched message propagation "2020-07-09T05:45:16.993" 
+05:45:20.692 [error] C1 propagation "2020-07-09T05:45:20.692" 
+05:45:24.331 [error] C2 propagation "2020-07-09T05:45:24.331" 
+05:45:26.995 [error] Sending find_sub batch [] 
+05:45:26.995 [error] Sending find_sub_aq batch [] 
+05:45:26.995 [error] batched message propagation "2020-07-09T05:45:26.995" 
+05:45:27.693 [error] C1 propagation "2020-07-09T05:45:27.693" 
+05:45:34.695 [error] C1 propagation "2020-07-09T05:45:34.695" 
+05:45:36.997 [error] Sending find_sub batch [] 
+05:45:36.997 [error] Sending find_sub_aq batch [] 
+05:45:36.997 [error] batched message propagation "2020-07-09T05:45:36.997" 
+05:45:41.697 [error] C1 propagation "2020-07-09T05:45:41.697" 
+05:45:46.999 [error] Sending find_sub batch [] 
+05:45:46.999 [error] Sending find_sub_aq batch [] 
+05:45:46.999 [error] batched message propagation "2020-07-09T05:45:46.999" 
+05:45:48.699 [error] C1 propagation "2020-07-09T05:45:48.699" 
+05:45:55.701 [error] C1 propagation "2020-07-09T05:45:55.701" 
+05:45:57.001 [error] Sending find_sub batch [] 
+05:45:57.001 [error] Sending find_sub_aq batch [] 
+05:45:57.001 [error] batched message propagation "2020-07-09T05:45:57.162" 
+05:46:02.703 [error] C1 propagation "2020-07-09T05:46:02.703" 
+05:46:04.332 [error] C2 propagation "2020-07-09T05:46:04.332" 
+05:46:05.991 [error] C3 propagation "2020-07-09T05:46:05.991" 
+05:46:07.003 [error] Sending find_sub batch [] 
+05:46:07.003 [error] Sending find_sub_aq batch [] 
+05:46:07.003 [error] batched message propagation "2020-07-09T05:46:07.346" 
+05:46:09.704 [error] C1 propagation "2020-07-09T05:46:09.704" 
+05:46:16.706 [error] C1 propagation "2020-07-09T05:46:16.706" 
+05:46:17.004 [error] Sending find_sub batch [] 
+05:46:17.004 [error] Sending find_sub_aq batch [] 
+05:46:17.004 [error] batched message propagation "2020-07-09T05:46:17.468" 
+05:46:23.707 [error] C1 propagation "2020-07-09T05:46:23.707" 
+05:46:27.006 [error] Sending find_sub batch [] 
+05:46:27.006 [error] Sending find_sub_aq batch [] 
+05:46:27.006 [error] batched message propagation "2020-07-09T05:46:27.655" 
+05:46:30.708 [error] C1 propagation "2020-07-09T05:46:30.708" 
+05:46:37.008 [error] Sending find_sub batch [] 
+05:46:37.008 [error] Sending find_sub_aq batch [] 
+05:46:37.008 [error] batched message propagation "2020-07-09T05:46:37.851" 
+05:46:37.710 [error] C1 propagation "2020-07-09T05:46:37.710" 
+05:46:44.333 [error] C2 propagation "2020-07-09T05:46:44.333" 
+05:46:44.712 [error] C1 propagation "2020-07-09T05:46:44.712" 
+05:46:47.009 [error] Sending find_sub batch [] 
+05:46:47.009 [error] Sending find_sub_aq batch [] 
+05:46:47.009 [error] batched message propagation "2020-07-09T05:46:47.963" 
+05:46:51.714 [error] C1 propagation "2020-07-09T05:46:51.714" 
+05:46:57.011 [error] Sending find_sub batch [] 
+05:46:57.011 [error] Sending find_sub_aq batch [] 
+05:46:57.011 [error] batched message propagation "2020-07-09T05:46:57.115" 
+05:46:58.715 [error] C1 propagation "2020-07-09T05:46:58.715" 
+05:47:05.717 [error] C1 propagation "2020-07-09T05:47:05.717" 
+05:47:07.012 [error] Sending find_sub batch [] 
+05:47:07.012 [error] Sending find_sub_aq batch [] 
+05:47:07.012 [error] batched message propagation "2020-07-09T05:47:07.125" 
+05:47:12.718 [error] C1 propagation "2020-07-09T05:47:12.718" 
+05:47:15.992 [error] C3 propagation "2020-07-09T05:47:15.992" 
+05:47:17.013 [error] Sending find_sub batch [] 
+05:47:17.013 [error] Sending find_sub_aq batch [] 
+05:47:17.013 [error] batched message propagation "2020-07-09T05:47:17.135" 
+05:47:19.719 [error] C1 propagation "2020-07-09T05:47:19.719" 
+05:47:24.334 [error] C2 propagation "2020-07-09T05:47:24.334" 
+05:47:26.720 [error] C1 propagation "2020-07-09T05:47:26.720" 
+05:47:27.015 [error] Sending find_sub batch [] 
+05:47:27.015 [error] Sending find_sub_aq batch [] 
+05:47:27.015 [error] batched message propagation "2020-07-09T05:47:27.155" 
+05:47:33.721 [error] C1 propagation "2020-07-09T05:47:33.721" 
+05:47:37.017 [error] Sending find_sub batch [] 
+05:47:37.017 [error] Sending find_sub_aq batch [] 
+05:47:37.017 [error] batched message propagation "2020-07-09T05:47:37.175" 
+05:47:40.722 [error] C1 propagation "2020-07-09T05:47:40.722" 
+05:47:47.019 [error] Sending find_sub batch [] 
+05:47:47.019 [error] Sending find_sub_aq batch [] 
+05:47:47.019 [error] batched message propagation "2020-07-09T05:47:47.196" 
+05:47:47.724 [error] C1 propagation "2020-07-09T05:47:47.724" 
+05:47:54.725 [error] C1 propagation "2020-07-09T05:47:54.725" 
+05:47:57.021 [error] Sending find_sub batch [] 
+05:47:57.021 [error] Sending find_sub_aq batch [] 
+05:47:57.021 [error] batched message propagation "2020-07-09T05:47:57.215" 
+05:48:01.726 [error] C1 propagation "2020-07-09T05:48:01.726" 
+05:48:04.335 [error] C2 propagation "2020-07-09T05:48:04.335" 
+05:48:07.023 [error] Sending find_sub batch [] 
+05:48:07.023 [error] Sending find_sub_aq batch [] 
+05:48:07.023 [error] batched message propagation "2020-07-09T05:48:07.235" 
+05:48:08.728 [error] C1 propagation "2020-07-09T05:48:08.728" 
+05:48:15.730 [error] C1 propagation "2020-07-09T05:48:15.730" 
+05:48:17.024 [error] Sending find_sub batch [] 
+05:48:17.024 [error] Sending find_sub_aq batch [] 
+05:48:17.024 [error] batched message propagation "2020-07-09T05:48:17.248" 
+05:48:22.731 [error] C1 propagation "2020-07-09T05:48:22.731" 
+05:48:25.994 [error] C3 propagation "2020-07-09T05:48:25.994" 
+05:48:27.026 [error] Sending find_sub batch [] 
+05:48:27.026 [error] Sending find_sub_aq batch [] 
+05:48:27.026 [error] batched message propagation "2020-07-09T05:48:27.265" 
+05:48:29.732 [error] C1 propagation "2020-07-09T05:48:29.732" 
+05:48:36.733 [error] C1 propagation "2020-07-09T05:48:36.733" 
+05:48:37.028 [error] Sending find_sub batch [] 
+05:48:37.028 [error] Sending find_sub_aq batch [] 
+05:48:37.028 [error] batched message propagation "2020-07-09T05:48:37.284" 
+05:48:43.734 [error] C1 propagation "2020-07-09T05:48:43.734" 
+05:48:44.336 [error] C2 propagation "2020-07-09T05:48:44.336" 
+05:48:47.030 [error] Sending find_sub batch [] 
+05:48:47.030 [error] Sending find_sub_aq batch [] 
+05:48:47.030 [error] batched message propagation "2020-07-09T05:48:47.305" 
+05:48:50.735 [error] C1 propagation "2020-07-09T05:48:50.735" 
+05:48:57.032 [error] Sending find_sub batch [] 
+05:48:57.032 [error] Sending find_sub_aq batch [] 
+05:48:57.032 [error] batched message propagation "2020-07-09T05:48:57.325" 
+05:48:57.736 [error] C1 propagation "2020-07-09T05:48:57.736" 
+05:49:04.737 [error] C1 propagation "2020-07-09T05:49:04.737" 
+05:49:07.034 [error] Sending find_sub batch [] 
+05:49:07.034 [error] Sending find_sub_aq batch [] 
+05:49:07.034 [error] batched message propagation "2020-07-09T05:49:07.345" 
+05:49:11.739 [error] C1 propagation "2020-07-09T05:49:11.739" 
+05:49:17.036 [error] Sending find_sub batch [] 
+05:49:17.036 [error] Sending find_sub_aq batch [] 
+05:49:17.036 [error] batched message propagation "2020-07-09T05:49:17.365" 
+05:49:18.740 [error] C1 propagation "2020-07-09T05:49:18.740" 
+05:49:24.338 [error] C2 propagation "2020-07-09T05:49:24.338" 
+05:49:25.742 [error] C1 propagation "2020-07-09T05:49:25.742" 
+05:49:27.038 [error] Sending find_sub batch [] 
+05:49:27.038 [error] Sending find_sub_aq batch [] 
+05:49:27.038 [error] batched message propagation "2020-07-09T05:49:27.385" 
+05:49:32.743 [error] C1 propagation "2020-07-09T05:49:32.743" 
+05:49:35.996 [error] C3 propagation "2020-07-09T05:49:35.996" 
+05:49:37.039 [error] Sending find_sub batch [] 
+05:49:37.039 [error] Sending find_sub_aq batch [] 
+05:49:37.039 [error] batched message propagation "2020-07-09T05:49:37.394" 
+05:49:39.744 [error] C1 propagation "2020-07-09T05:49:39.744" 
+05:49:46.746 [error] C1 propagation "2020-07-09T05:49:46.746" 
+05:49:47.040 [error] Sending find_sub batch [] 
+05:49:47.040 [error] Sending find_sub_aq batch [] 
+05:49:47.040 [error] batched message propagation "2020-07-09T05:49:47.405" 
+05:49:53.747 [error] C1 propagation "2020-07-09T05:49:53.747" 
+05:49:57.042 [error] Sending find_sub batch [] 
+05:49:57.042 [error] Sending find_sub_aq batch [] 
+05:49:57.042 [error] batched message propagation "2020-07-09T05:49:57.427" 
+05:50:00.748 [error] C1 propagation "2020-07-09T05:50:00.748" 
+05:50:04.339 [error] C2 propagation "2020-07-09T05:50:04.339" 
+05:50:07.044 [error] Sending find_sub batch [] 
+05:50:07.044 [error] Sending find_sub_aq batch [] 
+05:50:07.044 [error] batched message propagation "2020-07-09T05:50:07.445" 
+05:50:07.749 [error] C1 propagation "2020-07-09T05:50:07.749" 
+05:50:14.751 [error] C1 propagation "2020-07-09T05:50:14.751" 
+05:50:17.046 [error] Sending find_sub batch [] 
+05:50:17.046 [error] Sending find_sub_aq batch [] 
+05:50:17.046 [error] batched message propagation "2020-07-09T05:50:17.466" 
+05:50:21.752 [error] C1 propagation "2020-07-09T05:50:21.752" 
+05:50:27.048 [error] Sending find_sub batch [] 
+05:50:27.048 [error] Sending find_sub_aq batch [] 
+05:50:27.048 [error] batched message propagation "2020-07-09T05:50:27.485" 
+05:50:28.754 [error] C1 propagation "2020-07-09T05:50:28.754" 
+05:50:35.756 [error] C1 propagation "2020-07-09T05:50:35.756" 
+05:50:37.050 [error] Sending find_sub batch [] 
+05:50:37.050 [error] Sending find_sub_aq batch [] 
+05:50:37.050 [error] batched message propagation "2020-07-09T05:50:37.506" 
+05:50:42.758 [error] C1 propagation "2020-07-09T05:50:42.758" 
+05:50:44.340 [error] C2 propagation "2020-07-09T05:50:44.340" 
+05:50:45.998 [error] C3 propagation "2020-07-09T05:50:45.998" 
+05:50:47.052 [error] Sending find_sub batch [] 
+05:50:47.052 [error] Sending find_sub_aq batch [] 
+05:50:47.052 [error] batched message propagation "2020-07-09T05:50:47.525" 
+05:50:49.759 [error] C1 propagation "2020-07-09T05:50:49.759" 
+05:50:56.760 [error] C1 propagation "2020-07-09T05:50:56.760" 
+05:50:57.053 [error] Sending find_sub batch [] 
+05:50:57.053 [error] Sending find_sub_aq batch [] 
+05:50:57.053 [error] batched message propagation "2020-07-09T05:50:57.535" 
+05:51:03.762 [error] C1 propagation "2020-07-09T05:51:03.762" 
+05:51:07.055 [error] Sending find_sub batch [] 
+05:51:07.055 [error] Sending find_sub_aq batch [] 
+05:51:07.055 [error] batched message propagation "2020-07-09T05:51:07.554" 
+05:51:10.763 [error] C1 propagation "2020-07-09T05:51:10.763" 
+05:51:17.057 [error] Sending find_sub batch [] 
+05:51:17.057 [error] Sending find_sub_aq batch [] 
+05:51:17.057 [error] batched message propagation "2020-07-09T05:51:17.576" 
+05:51:17.765 [error] C1 propagation "2020-07-09T05:51:17.765" 
+05:51:24.341 [error] C2 propagation "2020-07-09T05:51:24.341" 
+05:51:24.767 [error] C1 propagation "2020-07-09T05:51:24.767" 
+05:51:27.059 [error] Sending find_sub batch [] 
+05:51:27.059 [error] Sending find_sub_aq batch [] 
+05:51:27.059 [error] batched message propagation "2020-07-09T05:51:27.595" 
+05:51:31.769 [error] C1 propagation "2020-07-09T05:51:31.769" 
+05:51:37.061 [error] Sending find_sub batch [] 
+05:51:37.061 [error] Sending find_sub_aq batch [] 
+05:51:37.061 [error] batched message propagation "2020-07-09T05:51:37.616" 
+05:51:38.771 [error] C1 propagation "2020-07-09T05:51:38.771" 
+05:51:45.772 [error] C1 propagation "2020-07-09T05:51:45.772" 
+05:51:47.063 [error] Sending find_sub batch [] 
+05:51:47.063 [error] Sending find_sub_aq batch [] 
+05:51:47.063 [error] batched message propagation "2020-07-09T05:51:47.634" 
+05:51:52.773 [error] C1 propagation "2020-07-09T05:51:52.773" 
+05:51:55.999 [error] C3 propagation "2020-07-09T05:51:55.999" 
+05:51:57.064 [error] Sending find_sub batch [] 
+05:51:57.064 [error] Sending find_sub_aq batch [] 
+05:51:57.064 [error] batched message propagation "2020-07-09T05:51:57.645" 
+05:51:59.774 [error] C1 propagation "2020-07-09T05:51:59.774" 
+05:52:04.342 [error] C2 propagation "2020-07-09T05:52:04.342" 
+05:52:06.776 [error] C1 propagation "2020-07-09T05:52:06.776" 
+05:52:07.066 [error] Sending find_sub batch [] 
+05:52:07.066 [error] Sending find_sub_aq batch [] 
+05:52:07.066 [error] batched message propagation "2020-07-09T05:52:07.665" 
+05:52:13.777 [error] C1 propagation "2020-07-09T05:52:13.777" 
+05:52:17.068 [error] Sending find_sub batch [] 
+05:52:17.068 [error] Sending find_sub_aq batch [] 
+05:52:17.068 [error] batched message propagation "2020-07-09T05:52:17.685" 
+05:52:20.779 [error] C1 propagation "2020-07-09T05:52:20.779" 
+05:52:27.070 [error] Sending find_sub batch [] 
+05:52:27.070 [error] Sending find_sub_aq batch [] 
+05:52:27.070 [error] batched message propagation "2020-07-09T05:52:27.705" 
+05:52:27.781 [error] C1 propagation "2020-07-09T05:52:27.781" 
+05:52:34.782 [error] C1 propagation "2020-07-09T05:52:34.782" 
+05:52:37.071 [error] Sending find_sub batch [] 
+05:52:37.071 [error] Sending find_sub_aq batch [] 
+05:52:37.071 [error] batched message propagation "2020-07-09T05:52:37.717" 
+05:52:41.783 [error] C1 propagation "2020-07-09T05:52:41.783" 
+05:52:44.343 [error] C2 propagation "2020-07-09T05:52:44.343" 
+05:52:47.073 [error] Sending find_sub batch [] 
+05:52:47.073 [error] Sending find_sub_aq batch [] 
+05:52:47.073 [error] batched message propagation "2020-07-09T05:52:47.736" 
+05:52:48.784 [error] C1 propagation "2020-07-09T05:52:48.784" 
+05:52:55.786 [error] C1 propagation "2020-07-09T05:52:55.786" 
+05:52:57.075 [error] Sending find_sub batch [] 
+05:52:57.075 [error] Sending find_sub_aq batch [] 
+05:52:57.075 [error] batched message propagation "2020-07-09T05:52:57.755" 
+05:53:02.788 [error] C1 propagation "2020-07-09T05:53:02.788" 
+05:53:06.001 [error] C3 propagation "2020-07-09T05:53:06.146" 
+05:53:07.076 [error] Sending find_sub batch [] 
+05:53:07.076 [error] Sending find_sub_aq batch [] 
+05:53:07.076 [error] batched message propagation "2020-07-09T05:53:07.765" 
+05:53:09.790 [error] C1 propagation "2020-07-09T05:53:09.790" 
+05:53:16.792 [error] C1 propagation "2020-07-09T05:53:16.792" 
+05:53:17.077 [error] Sending find_sub batch [] 
+05:53:17.077 [error] Sending find_sub_aq batch [] 
+05:53:17.077 [error] batched message propagation "2020-07-09T05:53:17.775" 
+05:53:23.793 [error] C1 propagation "2020-07-09T05:53:23.793" 
+05:53:24.344 [error] C2 propagation "2020-07-09T05:53:24.344" 
+05:53:27.079 [error] Sending find_sub batch [] 
+05:53:27.079 [error] Sending find_sub_aq batch [] 
+05:53:27.079 [error] batched message propagation "2020-07-09T05:53:27.794" 
+05:53:30.794 [error] C1 propagation "2020-07-09T05:53:30.794" 
+05:53:37.081 [error] Sending find_sub batch [] 
+05:53:37.081 [error] Sending find_sub_aq batch [] 
+05:53:37.081 [error] batched message propagation "2020-07-09T05:53:37.816" 
+05:53:37.795 [error] C1 propagation "2020-07-09T05:53:37.795" 
+05:53:44.796 [error] C1 propagation "2020-07-09T05:53:44.796" 
+05:53:47.082 [error] Sending find_sub batch [] 
+05:53:47.082 [error] Sending find_sub_aq batch [] 
+05:53:47.083 [error] batched message propagation "2020-07-09T05:53:47.830" 
+05:53:51.798 [error] C1 propagation "2020-07-09T05:53:51.798" 
+05:53:57.084 [error] Sending find_sub batch [] 
+05:53:57.084 [error] Sending find_sub_aq batch [] 
+05:53:57.084 [error] batched message propagation "2020-07-09T05:53:57.846" 
+05:53:58.800 [error] C1 propagation "2020-07-09T05:53:58.800" 
+05:54:04.345 [error] C2 propagation "2020-07-09T05:54:04.345" 
+05:54:05.802 [error] C1 propagation "2020-07-09T05:54:05.802" 
+05:54:07.086 [error] Sending find_sub batch [] 
+05:54:07.086 [error] Sending find_sub_aq batch [] 
+05:54:07.086 [error] batched message propagation "2020-07-09T05:54:07.864" 
+05:54:12.804 [error] C1 propagation "2020-07-09T05:54:12.804" 
+05:54:16.003 [error] C3 propagation "2020-07-09T05:54:16.343" 
+05:54:17.087 [error] Sending find_sub batch [] 
+05:54:17.087 [error] Sending find_sub_aq batch [] 
+05:54:17.087 [error] batched message propagation "2020-07-09T05:54:17.875" 
+05:54:19.806 [error] C1 propagation "2020-07-09T05:54:19.806" 
+05:54:26.808 [error] C1 propagation "2020-07-09T05:54:26.808" 
+05:54:27.088 [error] Sending find_sub batch [] 
+05:54:27.088 [error] Sending find_sub_aq batch [] 
+05:54:27.088 [error] batched message propagation "2020-07-09T05:54:27.886" 
+05:54:33.809 [error] C1 propagation "2020-07-09T05:54:33.809" 
+05:54:37.090 [error] Sending find_sub batch [] 
+05:54:37.090 [error] Sending find_sub_aq batch [] 
+05:54:37.090 [error] batched message propagation "2020-07-09T05:54:37.906" 
+05:54:40.811 [error] C1 propagation "2020-07-09T05:54:40.811" 
+05:54:44.347 [error] C2 propagation "2020-07-09T05:54:44.347" 
+05:54:47.092 [error] Sending find_sub batch [] 
+05:54:47.092 [error] Sending find_sub_aq batch [] 
+05:54:47.092 [error] batched message propagation "2020-07-09T05:54:47.927" 
+05:54:47.813 [error] C1 propagation "2020-07-09T05:54:47.813" 
+05:54:54.815 [error] C1 propagation "2020-07-09T05:54:54.815" 
+05:54:57.094 [error] Sending find_sub batch [] 
+05:54:57.094 [error] Sending find_sub_aq batch [] 
+05:54:57.094 [error] batched message propagation "2020-07-09T05:54:57.945" 
+05:55:01.817 [error] C1 propagation "2020-07-09T05:55:01.817" 
+05:55:07.096 [error] Sending find_sub batch [] 
+05:55:07.096 [error] Sending find_sub_aq batch [] 
+05:55:07.096 [error] batched message propagation "2020-07-09T05:55:07.965" 
+05:55:08.819 [error] C1 propagation "2020-07-09T05:55:08.819" 
+05:55:15.820 [error] C1 propagation "2020-07-09T05:55:15.820" 
+05:55:17.098 [error] Sending find_sub batch [] 
+05:55:17.098 [error] Sending find_sub_aq batch [] 
+05:55:17.098 [error] batched message propagation "2020-07-09T05:55:17.985" 
+05:55:22.822 [error] C1 propagation "2020-07-09T05:55:22.822" 
+05:55:24.348 [error] C2 propagation "2020-07-09T05:55:24.348" 
+05:55:26.005 [error] C3 propagation "2020-07-09T05:55:26.539" 
+05:55:27.100 [error] Sending find_sub batch [] 
+05:55:27.100 [error] Sending find_sub_aq batch [] 
+05:55:27.100 [error] batched message propagation "2020-07-09T05:55:27.100" 
+05:55:29.824 [error] C1 propagation "2020-07-09T05:55:29.824" 
+05:55:36.826 [error] C1 propagation "2020-07-09T05:55:36.826" 
+05:55:37.102 [error] Sending find_sub batch [] 
+05:55:37.102 [error] Sending find_sub_aq batch [] 
+05:55:37.102 [error] batched message propagation "2020-07-09T05:55:37.102" 
+05:55:43.827 [error] C1 propagation "2020-07-09T05:55:43.827" 
+05:55:47.104 [error] Sending find_sub batch [] 
+05:55:47.104 [error] Sending find_sub_aq batch [] 
+05:55:47.104 [error] batched message propagation "2020-07-09T05:55:47.104" 
+05:55:50.828 [error] C1 propagation "2020-07-09T05:55:50.828" 
+05:55:57.106 [error] Sending find_sub batch [] 
+05:55:57.106 [error] Sending find_sub_aq batch [] 
+05:55:57.106 [error] batched message propagation "2020-07-09T05:55:57.106" 
+05:55:57.829 [error] C1 propagation "2020-07-09T05:55:57.829" 
+05:56:04.349 [error] C2 propagation "2020-07-09T05:56:04.349" 
+05:56:04.831 [error] C1 propagation "2020-07-09T05:56:04.831" 
+05:56:07.107 [error] Sending find_sub batch [] 
+05:56:07.107 [error] Sending find_sub_aq batch [] 
+05:56:07.107 [error] batched message propagation "2020-07-09T05:56:07.107" 
+05:56:11.832 [error] C1 propagation "2020-07-09T05:56:11.832" 
+05:56:17.109 [error] Sending find_sub batch [] 
+05:56:17.109 [error] Sending find_sub_aq batch [] 
+05:56:17.109 [error] batched message propagation "2020-07-09T05:56:17.109" 
+05:56:18.833 [error] C1 propagation "2020-07-09T05:56:18.833" 
+05:56:25.834 [error] C1 propagation "2020-07-09T05:56:25.834" 
+05:56:27.111 [error] Sending find_sub batch [] 
+05:56:27.111 [error] Sending find_sub_aq batch [] 
+05:56:27.111 [error] batched message propagation "2020-07-09T05:56:27.111" 
+05:56:32.835 [error] C1 propagation "2020-07-09T05:56:32.835" 
+05:56:36.007 [error] C3 propagation "2020-07-09T05:56:36.744" 
+05:56:37.112 [error] Sending find_sub batch [] 
+05:56:37.112 [error] Sending find_sub_aq batch [] 
+05:56:37.112 [error] batched message propagation "2020-07-09T05:56:37.112" 
+05:56:39.836 [error] C1 propagation "2020-07-09T05:56:39.836" 
+05:56:44.350 [error] C2 propagation "2020-07-09T05:56:44.350" 
+05:56:46.838 [error] C1 propagation "2020-07-09T05:56:46.838" 
+05:56:47.114 [error] Sending find_sub batch [] 
+05:56:47.114 [error] Sending find_sub_aq batch [] 
+05:56:47.114 [error] batched message propagation "2020-07-09T05:56:47.114" 
+05:56:53.840 [error] C1 propagation "2020-07-09T05:56:53.840" 
+05:56:57.116 [error] Sending find_sub batch [] 
+05:56:57.116 [error] Sending find_sub_aq batch [] 
+05:56:57.116 [error] batched message propagation "2020-07-09T05:56:57.116" 
+05:57:00.842 [error] C1 propagation "2020-07-09T05:57:00.842" 
+05:57:07.118 [error] Sending find_sub batch [] 
+05:57:07.118 [error] Sending find_sub_aq batch [] 
+05:57:07.118 [error] batched message propagation "2020-07-09T05:57:07.118" 
+05:57:07.843 [error] C1 propagation "2020-07-09T05:57:07.843" 
+05:57:14.845 [error] C1 propagation "2020-07-09T05:57:14.845" 
+05:57:17.120 [error] Sending find_sub batch [] 
+05:57:17.120 [error] Sending find_sub_aq batch [] 
+05:57:17.120 [error] batched message propagation "2020-07-09T05:57:17.120" 
+05:57:21.846 [error] C1 propagation "2020-07-09T05:57:21.846" 
+05:57:24.352 [error] C2 propagation "2020-07-09T05:57:24.352" 
+05:57:27.122 [error] Sending find_sub batch [] 
+05:57:27.122 [error] Sending find_sub_aq batch [] 
+05:57:27.122 [error] batched message propagation "2020-07-09T05:57:27.122" 
+05:57:28.847 [error] C1 propagation "2020-07-09T05:57:28.847" 
+05:57:35.849 [error] C1 propagation "2020-07-09T05:57:35.849" 
+05:57:37.222 [error] Sending find_sub batch [] 
+05:57:37.222 [error] Sending find_sub_aq batch [] 
+05:57:37.222 [error] batched message propagation "2020-07-09T05:57:37.222" 
+05:57:42.850 [error] C1 propagation "2020-07-09T05:57:42.850" 
+05:57:46.009 [error] C3 propagation "2020-07-09T05:57:46.932" 
+05:57:47.224 [error] Sending find_sub batch [] 
+05:57:47.224 [error] Sending find_sub_aq batch [] 
+05:57:47.225 [error] batched message propagation "2020-07-09T05:57:47.224" 
+05:57:49.851 [error] C1 propagation "2020-07-09T05:57:49.851" 
+05:57:56.853 [error] C1 propagation "2020-07-09T05:57:56.853" 
+05:57:57.226 [error] Sending find_sub batch [] 
+05:57:57.226 [error] Sending find_sub_aq batch [] 
+05:57:57.226 [error] batched message propagation "2020-07-09T05:57:57.226" 
+05:58:03.854 [error] C1 propagation "2020-07-09T05:58:03.854" 
+05:58:04.353 [error] C2 propagation "2020-07-09T05:58:04.353" 
+05:58:07.228 [error] Sending find_sub batch [] 
+05:58:07.228 [error] Sending find_sub_aq batch [] 
+05:58:07.228 [error] batched message propagation "2020-07-09T05:58:07.228" 
+05:58:10.856 [error] C1 propagation "2020-07-09T05:58:10.856" 
+05:58:17.230 [error] Sending find_sub batch [] 
+05:58:17.230 [error] Sending find_sub_aq batch [] 
+05:58:17.230 [error] batched message propagation "2020-07-09T05:58:17.230" 
+05:58:17.857 [error] C1 propagation "2020-07-09T05:58:17.857" 
+05:58:24.859 [error] C1 propagation "2020-07-09T05:58:24.859" 
+05:58:27.231 [error] Sending find_sub batch [] 
+05:58:27.231 [error] Sending find_sub_aq batch [] 
+05:58:27.231 [error] batched message propagation "2020-07-09T05:58:27.231" 
+05:58:31.860 [error] C1 propagation "2020-07-09T05:58:31.860" 
+05:58:37.233 [error] Sending find_sub batch [] 
+05:58:37.233 [error] Sending find_sub_aq batch [] 
+05:58:37.233 [error] batched message propagation "2020-07-09T05:58:37.233" 
+05:58:38.861 [error] C1 propagation "2020-07-09T05:58:38.861" 
+05:58:44.355 [error] C2 propagation "2020-07-09T05:58:44.355" 
+05:58:45.863 [error] C1 propagation "2020-07-09T05:58:45.863" 
+05:58:47.235 [error] Sending find_sub batch [] 
+05:58:47.235 [error] Sending find_sub_aq batch [] 
+05:58:47.235 [error] batched message propagation "2020-07-09T05:58:47.235" 
+05:58:52.864 [error] C1 propagation "2020-07-09T05:58:52.864" 
+05:58:56.010 [error] C3 propagation "2020-07-09T05:58:56.104" 
+05:58:57.237 [error] Sending find_sub batch [] 
+05:58:57.237 [error] Sending find_sub_aq batch [] 
+05:58:57.237 [error] batched message propagation "2020-07-09T05:58:57.237" 
+05:58:59.865 [error] C1 propagation "2020-07-09T05:58:59.865" 
+05:59:06.866 [error] C1 propagation "2020-07-09T05:59:06.866" 
+05:59:07.239 [error] Sending find_sub batch [] 
+05:59:07.239 [error] Sending find_sub_aq batch [] 
+05:59:07.239 [error] batched message propagation "2020-07-09T05:59:07.239" 
+05:59:08.154 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T05:59:08.154" Took=87580 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[#{what => timeis_05_58_50_927}],[],[],[],[],[],[]}}}}] 
+05:59:08.154 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",0,0},{"delta_send",0,1},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",58,0},{"sub_cancel",0,0}] 
+05:59:13.867 [error] C1 propagation "2020-07-09T05:59:13.867" 
+05:59:17.241 [error] Sending find_sub batch [] 
+05:59:17.241 [error] Sending find_sub_aq batch [] 
+05:59:17.241 [error] batched message propagation "2020-07-09T05:59:17.241" 
+05:59:20.869 [error] C1 propagation "2020-07-09T05:59:20.869" 
+05:59:24.356 [error] C2 propagation "2020-07-09T05:59:24.356" 
+05:59:27.243 [error] Sending find_sub batch [] 
+05:59:27.243 [error] Sending find_sub_aq batch [] 
+05:59:27.243 [error] batched message propagation "2020-07-09T05:59:27.243" 
+05:59:27.870 [error] C1 propagation "2020-07-09T05:59:27.870" 
+05:59:34.871 [error] C1 propagation "2020-07-09T05:59:34.871" 
+05:59:37.245 [error] Sending find_sub batch [] 
+05:59:37.245 [error] Sending find_sub_aq batch [] 
+05:59:37.245 [error] batched message propagation "2020-07-09T05:59:37.245" 
+05:59:41.872 [error] C1 propagation "2020-07-09T05:59:41.872" 
+05:59:47.247 [error] Sending find_sub batch [] 
+05:59:47.247 [error] Sending find_sub_aq batch [] 
+05:59:47.247 [error] batched message propagation "2020-07-09T05:59:47.247" 
+05:59:48.215 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T05:59:48.215" Took=23426 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[#{what => timeis_05_59_33_107}],[],[],[],[],[],[],[]}}}}] 
+05:59:48.330 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",1,0},{"delta_send",0,2},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",59,0},{"sub_cancel",0,0}] 
+05:59:48.874 [error] C1 propagation "2020-07-09T05:59:48.874" 
+05:59:55.875 [error] C1 propagation "2020-07-09T05:59:55.875" 
+05:59:57.249 [error] Sending find_sub batch [] 
+05:59:57.249 [error] Sending find_sub_aq batch [] 
+05:59:57.249 [error] batched message propagation "2020-07-09T05:59:57.249" 
+06:00:02.876 [error] C1 propagation "2020-07-09T06:00:02.876" 
+06:00:04.357 [error] C2 propagation "2020-07-09T06:00:04.357" 
+06:00:06.012 [error] C3 propagation "2020-07-09T06:00:06.124" 
+06:00:07.250 [error] Sending find_sub batch [] 
+06:00:07.250 [error] Sending find_sub_aq batch [] 
+06:00:07.250 [error] batched message propagation "2020-07-09T06:00:07.250" 
+06:00:09.877 [error] C1 propagation "2020-07-09T06:00:09.877" 
+06:00:16.879 [error] C1 propagation "2020-07-09T06:00:16.879" 
+06:00:17.252 [error] Sending find_sub batch [] 
+06:00:17.252 [error] Sending find_sub_aq batch [] 
+06:00:17.252 [error] batched message propagation "2020-07-09T06:00:17.252" 
+06:00:23.880 [error] C1 propagation "2020-07-09T06:00:23.880" 
+06:00:27.254 [error] Sending find_sub batch [] 
+06:00:27.254 [error] Sending find_sub_aq batch [] 
+06:00:27.254 [error] batched message propagation "2020-07-09T06:00:27.254" 
+06:00:28.136 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:00:28.136" Took=20828 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_00_09_259}],[],[],[]}}}}] 
+06:00:28.173 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",2,0},{"delta_send",0,3},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",60,0},{"sub_cancel",0,0}] 
+06:00:30.881 [error] C1 propagation "2020-07-09T06:00:30.881" 
+06:00:37.256 [error] Sending find_sub batch [] 
+06:00:37.256 [error] Sending find_sub_aq batch [] 
+06:00:37.256 [error] batched message propagation "2020-07-09T06:00:37.256" 
+06:00:37.882 [error] C1 propagation "2020-07-09T06:00:37.882" 
+06:00:44.359 [error] C2 propagation "2020-07-09T06:00:44.359" 
+06:00:44.883 [error] C1 propagation "2020-07-09T06:00:44.883" 
+06:00:47.258 [error] Sending find_sub batch [] 
+06:00:47.258 [error] Sending find_sub_aq batch [] 
+06:00:47.258 [error] batched message propagation "2020-07-09T06:00:47.258" 
+06:00:51.884 [error] C1 propagation "2020-07-09T06:00:51.884" 
+06:00:57.260 [error] Sending find_sub batch [] 
+06:00:57.260 [error] Sending find_sub_aq batch [] 
+06:00:57.260 [error] batched message propagation "2020-07-09T06:00:57.260" 
+06:00:58.886 [error] C1 propagation "2020-07-09T06:00:58.886" 
+06:01:05.888 [error] C1 propagation "2020-07-09T06:01:05.888" 
+06:01:07.262 [error] Sending find_sub batch [] 
+06:01:07.262 [error] Sending find_sub_aq batch [] 
+06:01:07.262 [error] batched message propagation "2020-07-09T06:01:07.262" 
+06:01:08.102 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:01:08.102" Took=21610 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[#{what => timeis_06_00_51_435}],[],[],[],[],[],[]}}}}] 
+06:01:08.183 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",3,0},{"delta_send",0,4},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",61,0},{"sub_cancel",0,0}] 
+06:01:12.889 [error] C1 propagation "2020-07-09T06:01:12.889" 
+06:01:16.013 [error] C3 propagation "2020-07-09T06:01:16.134" 
+06:01:17.263 [error] Sending find_sub batch [] 
+06:01:17.263 [error] Sending find_sub_aq batch [] 
+06:01:17.263 [error] batched message propagation "2020-07-09T06:01:17.263" 
+06:01:19.890 [error] C1 propagation "2020-07-09T06:01:19.890" 
+06:01:24.366 [error] C2 propagation "2020-07-09T06:01:24.366" 
+06:01:26.892 [error] C1 propagation "2020-07-09T06:01:26.892" 
+06:01:27.265 [error] Sending find_sub batch [] 
+06:01:27.265 [error] Sending find_sub_aq batch [] 
+06:01:27.265 [error] batched message propagation "2020-07-09T06:01:27.265" 
+06:01:33.893 [error] C1 propagation "2020-07-09T06:01:33.893" 
+06:01:37.267 [error] Sending find_sub batch [] 
+06:01:37.267 [error] Sending find_sub_aq batch [] 
+06:01:37.267 [error] batched message propagation "2020-07-09T06:01:37.267" 
+06:01:40.894 [error] C1 propagation "2020-07-09T06:01:40.894" 
+06:01:47.269 [error] Sending find_sub batch [] 
+06:01:47.269 [error] Sending find_sub_aq batch [] 
+06:01:47.269 [error] batched message propagation "2020-07-09T06:01:47.269" 
+06:01:47.895 [error] C1 propagation "2020-07-09T06:01:47.895" 
+06:01:48.025 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:01:48.253" Took=23621 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[#{what => timeis_06_01_33_618}],[],[],[],[],[],[],[],[],[],[],[],[],[],[]}}}}] 
+06:01:48.025 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",4,0},{"delta_send",0,5},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",62,0},{"sub_cancel",0,0}] 
+06:01:54.896 [error] C1 propagation "2020-07-09T06:01:54.896" 
+06:01:57.271 [error] Sending find_sub batch [] 
+06:01:57.271 [error] Sending find_sub_aq batch [] 
+06:01:57.271 [error] batched message propagation "2020-07-09T06:01:57.271" 
+06:02:01.897 [error] C1 propagation "2020-07-09T06:02:01.897" 
+06:02:04.367 [error] C2 propagation "2020-07-09T06:02:04.367" 
+06:02:07.273 [error] Sending find_sub batch [] 
+06:02:07.273 [error] Sending find_sub_aq batch [] 
+06:02:07.273 [error] batched message propagation "2020-07-09T06:02:07.273" 
+06:02:08.898 [error] C1 propagation "2020-07-09T06:02:08.898" 
+06:02:15.900 [error] C1 propagation "2020-07-09T06:02:15.900" 
+06:02:17.275 [error] Sending find_sub batch [] 
+06:02:17.275 [error] Sending find_sub_aq batch [] 
+06:02:17.275 [error] batched message propagation "2020-07-09T06:02:17.275" 
+06:02:22.902 [error] C1 propagation "2020-07-09T06:02:22.902" 
+06:02:26.015 [error] C3 propagation "2020-07-09T06:02:26.155" 
+06:02:27.276 [error] Sending find_sub batch [] 
+06:02:27.276 [error] Sending find_sub_aq batch [] 
+06:02:27.276 [error] batched message propagation "2020-07-09T06:02:27.276" 
+06:02:28.197 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:02:28.196" Took=24602 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[#{what => timeis_06_02_15_797}],[],[],[],[],[],[],[],[],[],[],[],[],[]}}}}] 
+06:02:28.255 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",5,0},{"delta_send",0,6},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",63,0},{"sub_cancel",0,0}] 
+06:02:29.904 [error] C1 propagation "2020-07-09T06:02:29.904" 
+06:02:36.906 [error] C1 propagation "2020-07-09T06:02:36.906" 
+06:02:37.278 [error] Sending find_sub batch [] 
+06:02:37.278 [error] Sending find_sub_aq batch [] 
+06:02:37.278 [error] batched message propagation "2020-07-09T06:02:37.278" 
+06:02:43.907 [error] C1 propagation "2020-07-09T06:02:43.907" 
+06:02:44.368 [error] C2 propagation "2020-07-09T06:02:44.368" 
+06:02:47.280 [error] Sending find_sub batch [] 
+06:02:47.280 [error] Sending find_sub_aq batch [] 
+06:02:47.280 [error] batched message propagation "2020-07-09T06:02:47.280" 
+06:02:50.908 [error] C1 propagation "2020-07-09T06:02:50.908" 
+06:02:57.282 [error] Sending find_sub batch [] 
+06:02:57.282 [error] Sending find_sub_aq batch [] 
+06:02:57.282 [error] batched message propagation "2020-07-09T06:02:57.282" 
+06:02:57.909 [error] C1 propagation "2020-07-09T06:02:57.909" 
+06:03:04.911 [error] C1 propagation "2020-07-09T06:03:04.911" 
+06:03:07.284 [error] Sending find_sub batch [] 
+06:03:07.284 [error] Sending find_sub_aq batch [] 
+06:03:07.284 [error] batched message propagation "2020-07-09T06:03:07.284" 
+06:03:08.095 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:03:08.951" Took=29016 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_02_51_955}],[],[],[],[]}}}}] 
+06:03:08.095 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",6,0},{"delta_send",0,7},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",64,0},{"sub_cancel",0,0}] 
+06:03:11.912 [error] C1 propagation "2020-07-09T06:03:11.912" 
+06:03:17.286 [error] Sending find_sub batch [] 
+06:03:17.286 [error] Sending find_sub_aq batch [] 
+06:03:17.286 [error] batched message propagation "2020-07-09T06:03:17.286" 
+06:03:18.913 [error] C1 propagation "2020-07-09T06:03:18.913" 
+06:03:24.370 [error] C2 propagation "2020-07-09T06:03:24.370" 
+06:03:25.915 [error] C1 propagation "2020-07-09T06:03:25.915" 
+06:03:27.288 [error] Sending find_sub batch [] 
+06:03:27.288 [error] Sending find_sub_aq batch [] 
+06:03:27.288 [error] batched message propagation "2020-07-09T06:03:27.288" 
+06:03:32.916 [error] C1 propagation "2020-07-09T06:03:32.916" 
+06:03:36.017 [error] C3 propagation "2020-07-09T06:03:36.174" 
+06:03:37.289 [error] Sending find_sub batch [] 
+06:03:37.289 [error] Sending find_sub_aq batch [] 
+06:03:37.289 [error] batched message propagation "2020-07-09T06:03:37.289" 
+06:03:39.917 [error] C1 propagation "2020-07-09T06:03:39.917" 
+06:03:46.919 [error] C1 propagation "2020-07-09T06:03:46.919" 
+06:03:47.291 [error] Sending find_sub batch [] 
+06:03:47.291 [error] Sending find_sub_aq batch [] 
+06:03:47.291 [error] batched message propagation "2020-07-09T06:03:47.291" 
+06:03:48.029 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:03:48.288" Took=21452 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[#{what => timeis_06_03_34_138}],[],[],[],[],[],[],[],[]}}}}] 
+06:03:48.029 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",7,0},{"delta_send",0,8},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",65,0},{"sub_cancel",0,0}] 
+06:03:53.920 [error] C1 propagation "2020-07-09T06:03:53.920" 
+06:03:57.293 [error] Sending find_sub batch [] 
+06:03:57.293 [error] Sending find_sub_aq batch [] 
+06:03:57.293 [error] batched message propagation "2020-07-09T06:03:57.293" 
+06:04:00.921 [error] C1 propagation "2020-07-09T06:04:00.921" 
+06:04:04.372 [error] C2 propagation "2020-07-09T06:04:04.372" 
+06:04:07.296 [error] Sending find_sub batch [] 
+06:04:07.296 [error] Sending find_sub_aq batch [] 
+06:04:07.296 [error] batched message propagation "2020-07-09T06:04:07.296" 
+06:04:07.923 [error] C1 propagation "2020-07-09T06:04:07.923" 
+06:04:14.924 [error] C1 propagation "2020-07-09T06:04:14.924" 
+06:04:17.297 [error] Sending find_sub batch [] 
+06:04:17.297 [error] Sending find_sub_aq batch [] 
+06:04:17.297 [error] batched message propagation "2020-07-09T06:04:17.297" 
+06:04:21.925 [error] C1 propagation "2020-07-09T06:04:21.925" 
+06:04:27.299 [error] Sending find_sub batch [] 
+06:04:27.299 [error] Sending find_sub_aq batch [] 
+06:04:27.299 [error] batched message propagation "2020-07-09T06:04:27.299" 
+06:04:28.032 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:04:28.324" Took=24608 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[#{what => timeis_06_04_15_906}],[],[],[],[],[],[],[]}}}}] 
+06:04:28.032 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",8,0},{"delta_send",0,9},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",66,0},{"sub_cancel",0,0}] 
+06:04:28.926 [error] C1 propagation "2020-07-09T06:04:28.926" 
+06:04:35.927 [error] C1 propagation "2020-07-09T06:04:35.927" 
+06:04:37.301 [error] Sending find_sub batch [] 
+06:04:37.301 [error] Sending find_sub_aq batch [] 
+06:04:37.301 [error] batched message propagation "2020-07-09T06:04:37.301" 
+06:04:42.928 [error] C1 propagation "2020-07-09T06:04:42.928" 
+06:04:44.373 [error] C2 propagation "2020-07-09T06:04:44.373" 
+06:04:46.019 [error] C3 propagation "2020-07-09T06:04:46.193" 
+06:04:47.303 [error] Sending find_sub batch [] 
+06:04:47.303 [error] Sending find_sub_aq batch [] 
+06:04:47.303 [error] batched message propagation "2020-07-09T06:04:47.303" 
+06:04:49.930 [error] C1 propagation "2020-07-09T06:04:49.930" 
+06:04:56.931 [error] C1 propagation "2020-07-09T06:04:56.931" 
+06:04:57.305 [error] Sending find_sub batch [] 
+06:04:57.305 [error] Sending find_sub_aq batch [] 
+06:04:57.305 [error] batched message propagation "2020-07-09T06:04:57.305" 
+06:05:03.932 [error] C1 propagation "2020-07-09T06:05:03.932" 
+06:05:07.306 [error] Sending find_sub batch [] 
+06:05:07.306 [error] Sending find_sub_aq batch [] 
+06:05:07.306 [error] batched message propagation "2020-07-09T06:05:07.306" 
+06:05:08.204 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:05:08.204" Took=23857 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[#{what => timeis_06_04_52_069}],[],[],[],[],[],[],[],[]}}}}] 
+06:05:08.204 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",9,0},{"delta_send",0,10},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",67,0},{"sub_cancel",0,0}] 
+06:05:10.934 [error] C1 propagation "2020-07-09T06:05:10.934" 
+06:05:17.308 [error] Sending find_sub batch [] 
+06:05:17.308 [error] Sending find_sub_aq batch [] 
+06:05:17.308 [error] batched message propagation "2020-07-09T06:05:17.308" 
+06:05:17.936 [error] C1 propagation "2020-07-09T06:05:17.936" 
+06:05:24.374 [error] C2 propagation "2020-07-09T06:05:24.374" 
+06:05:24.937 [error] C1 propagation "2020-07-09T06:05:24.937" 
+06:05:27.309 [error] Sending find_sub batch [] 
+06:05:27.309 [error] Sending find_sub_aq batch [] 
+06:05:27.309 [error] batched message propagation "2020-07-09T06:05:27.309" 
+06:05:31.938 [error] C1 propagation "2020-07-09T06:05:31.938" 
+06:05:37.311 [error] Sending find_sub batch [] 
+06:05:37.311 [error] Sending find_sub_aq batch [] 
+06:05:37.311 [error] batched message propagation "2020-07-09T06:05:37.311" 
+06:05:38.939 [error] C1 propagation "2020-07-09T06:05:38.939" 
+06:05:45.940 [error] C1 propagation "2020-07-09T06:05:45.940" 
+06:05:47.313 [error] Sending find_sub batch [] 
+06:05:47.313 [error] Sending find_sub_aq batch [] 
+06:05:47.313 [error] batched message propagation "2020-07-09T06:05:47.313" 
+06:05:48.034 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:05:48.341" Took=22228 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_05_34_249}],[],[],[],[],[]}}}}] 
+06:05:48.034 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",10,0},{"delta_send",0,11},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",68,0},{"sub_cancel",0,0}] 
+06:05:52.941 [error] C1 propagation "2020-07-09T06:05:52.941" 
+06:05:56.020 [error] C3 propagation "2020-07-09T06:05:56.204" 
+06:05:57.315 [error] Sending find_sub batch [] 
+06:05:57.315 [error] Sending find_sub_aq batch [] 
+06:05:57.315 [error] batched message propagation "2020-07-09T06:05:57.315" 
+06:05:59.942 [error] C1 propagation "2020-07-09T06:05:59.942" 
+06:06:04.376 [error] C2 propagation "2020-07-09T06:06:04.376" 
+06:06:06.943 [error] C1 propagation "2020-07-09T06:06:06.943" 
+06:06:07.316 [error] Sending find_sub batch [] 
+06:06:07.316 [error] Sending find_sub_aq batch [] 
+06:06:07.316 [error] batched message propagation "2020-07-09T06:06:07.316" 
+06:06:13.944 [error] C1 propagation "2020-07-09T06:06:13.944" 
+06:06:17.318 [error] Sending find_sub batch [] 
+06:06:17.318 [error] Sending find_sub_aq batch [] 
+06:06:17.318 [error] batched message propagation "2020-07-09T06:06:17.318" 
+06:06:20.945 [error] C1 propagation "2020-07-09T06:06:20.945" 
+06:06:27.320 [error] Sending find_sub batch [] 
+06:06:27.320 [error] Sending find_sub_aq batch [] 
+06:06:27.320 [error] batched message propagation "2020-07-09T06:06:27.320" 
+06:06:27.946 [error] C1 propagation "2020-07-09T06:06:27.946" 
+06:06:28.071 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:06:28.716" Took=25790 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[#{what => timeis_06_06_16_434}],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]}}}}] 
+06:06:28.093 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",11,0},{"delta_send",0,12},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",69,0},{"sub_cancel",0,0}] 
+06:06:34.947 [error] C1 propagation "2020-07-09T06:06:34.947" 
+06:06:37.321 [error] Sending find_sub batch [] 
+06:06:37.321 [error] Sending find_sub_aq batch [] 
+06:06:37.321 [error] batched message propagation "2020-07-09T06:06:37.321" 
+06:06:41.949 [error] C1 propagation "2020-07-09T06:06:41.949" 
+06:06:44.378 [error] C2 propagation "2020-07-09T06:06:44.378" 
+06:06:47.322 [error] Sending find_sub batch [] 
+06:06:47.322 [error] Sending find_sub_aq batch [] 
+06:06:47.322 [error] batched message propagation "2020-07-09T06:06:47.322" 
+06:06:48.951 [error] C1 propagation "2020-07-09T06:06:48.951" 
+06:06:55.952 [error] C1 propagation "2020-07-09T06:06:55.952" 
+06:06:57.323 [error] Sending find_sub batch [] 
+06:06:57.323 [error] Sending find_sub_aq batch [] 
+06:06:57.323 [error] batched message propagation "2020-07-09T06:06:57.323" 
+06:07:02.953 [error] C1 propagation "2020-07-09T06:07:02.953" 
+06:07:06.022 [error] C3 propagation "2020-07-09T06:07:06.227" 
+06:07:07.324 [error] Sending find_sub batch [] 
+06:07:07.324 [error] Sending find_sub_aq batch [] 
+06:07:07.324 [error] batched message propagation "2020-07-09T06:07:07.324" 
+06:07:08.036 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:07:08.366" Took=21671 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[#{what => timeis_06_06_58_626}],[],[],[],[],[],[],[]}}}}] 
+06:07:08.036 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",12,0},{"delta_send",0,13},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",70,0},{"sub_cancel",0,0}] 
+06:07:09.955 [error] C1 propagation "2020-07-09T06:07:09.955" 
+06:07:16.957 [error] C1 propagation "2020-07-09T06:07:16.957" 
+06:07:17.326 [error] Sending find_sub batch [] 
+06:07:17.326 [error] Sending find_sub_aq batch [] 
+06:07:17.326 [error] batched message propagation "2020-07-09T06:07:17.326" 
+06:07:23.958 [error] C1 propagation "2020-07-09T06:07:23.958" 
+06:07:24.379 [error] C2 propagation "2020-07-09T06:07:24.379" 
+06:07:27.328 [error] Sending find_sub batch [] 
+06:07:27.328 [error] Sending find_sub_aq batch [] 
+06:07:27.328 [error] batched message propagation "2020-07-09T06:07:27.328" 
+06:07:30.959 [error] C1 propagation "2020-07-09T06:07:30.959" 
+06:07:37.329 [error] Sending find_sub batch [] 
+06:07:37.329 [error] Sending find_sub_aq batch [] 
+06:07:37.329 [error] batched message propagation "2020-07-09T06:07:37.329" 
+06:07:37.960 [error] C1 propagation "2020-07-09T06:07:37.960" 
+06:07:44.962 [error] C1 propagation "2020-07-09T06:07:44.962" 
+06:07:47.331 [error] Sending find_sub batch [] 
+06:07:47.331 [error] Sending find_sub_aq batch [] 
+06:07:47.331 [error] batched message propagation "2020-07-09T06:07:47.331" 
+06:07:48.038 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:07:48.380" Took=21561 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[#{what => timeis_06_07_34_800}],[],[],[],[],[],[],[],[],[],[]}}}}] 
+06:07:48.088 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",13,0},{"delta_send",0,14},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",71,0},{"sub_cancel",0,0}] 
+06:07:51.963 [error] C1 propagation "2020-07-09T06:07:51.963" 
+06:07:57.333 [error] Sending find_sub batch [] 
+06:07:57.333 [error] Sending find_sub_aq batch [] 
+06:07:57.333 [error] batched message propagation "2020-07-09T06:07:57.333" 
+06:07:58.965 [error] C1 propagation "2020-07-09T06:07:58.965" 
+06:08:04.380 [error] C2 propagation "2020-07-09T06:08:04.380" 
+06:08:05.967 [error] C1 propagation "2020-07-09T06:08:05.967" 
+06:08:07.335 [error] Sending find_sub batch [] 
+06:08:07.335 [error] Sending find_sub_aq batch [] 
+06:08:07.335 [error] batched message propagation "2020-07-09T06:08:07.335" 
+06:08:12.969 [error] C1 propagation "2020-07-09T06:08:12.969" 
+06:08:16.024 [error] C3 propagation "2020-07-09T06:08:16.245" 
+06:08:17.336 [error] Sending find_sub batch [] 
+06:08:17.336 [error] Sending find_sub_aq batch [] 
+06:08:17.336 [error] batched message propagation "2020-07-09T06:08:17.336" 
+06:08:19.970 [error] C1 propagation "2020-07-09T06:08:19.970" 
+06:08:26.972 [error] C1 propagation "2020-07-09T06:08:26.972" 
+06:08:27.337 [error] Sending find_sub batch [] 
+06:08:27.337 [error] Sending find_sub_aq batch [] 
+06:08:27.337 [error] batched message propagation "2020-07-09T06:08:27.337" 
+06:08:28.048 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:08:28.487" Took=31851 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_08_10_966}]}}}}] 
+06:08:28.049 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",14,0},{"delta_send",0,15},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",72,0},{"sub_cancel",0,0}] 
+06:08:33.974 [error] C1 propagation "2020-07-09T06:08:33.974" 
+06:08:37.339 [error] Sending find_sub batch [] 
+06:08:37.339 [error] Sending find_sub_aq batch [] 
+06:08:37.339 [error] batched message propagation "2020-07-09T06:08:37.339" 
+06:08:40.975 [error] C1 propagation "2020-07-09T06:08:40.975" 
+06:08:44.382 [error] C2 propagation "2020-07-09T06:08:44.382" 
+06:08:47.341 [error] Sending find_sub batch [] 
+06:08:47.341 [error] Sending find_sub_aq batch [] 
+06:08:47.341 [error] batched message propagation "2020-07-09T06:08:47.341" 
+06:08:47.977 [error] C1 propagation "2020-07-09T06:08:47.977" 
+06:08:54.979 [error] C1 propagation "2020-07-09T06:08:54.979" 
+06:08:57.343 [error] Sending find_sub batch [] 
+06:08:57.343 [error] Sending find_sub_aq batch [] 
+06:08:57.343 [error] batched message propagation "2020-07-09T06:08:57.343" 
+06:09:01.981 [error] C1 propagation "2020-07-09T06:09:01.981" 
+06:09:07.345 [error] Sending find_sub batch [] 
+06:09:07.345 [error] Sending find_sub_aq batch [] 
+06:09:07.345 [error] batched message propagation "2020-07-09T06:09:07.345" 
+06:09:08.042 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:09:08.419" Took=22742 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_08_58_719}],[],[]}}}}] 
+06:09:08.103 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",15,0},{"delta_send",0,16},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",73,0},{"sub_cancel",0,0}] 
+06:09:08.982 [error] C1 propagation "2020-07-09T06:09:08.982" 
+06:09:15.984 [error] C1 propagation "2020-07-09T06:09:15.984" 
+06:09:17.347 [error] Sending find_sub batch [] 
+06:09:17.347 [error] Sending find_sub_aq batch [] 
+06:09:17.347 [error] batched message propagation "2020-07-09T06:09:17.347" 
+06:09:22.985 [error] C1 propagation "2020-07-09T06:09:22.985" 
+06:09:24.383 [error] C2 propagation "2020-07-09T06:09:24.383" 
+06:09:26.026 [error] C3 propagation "2020-07-09T06:09:26.263" 
+06:09:27.349 [error] Sending find_sub batch [] 
+06:09:27.349 [error] Sending find_sub_aq batch [] 
+06:09:27.349 [error] batched message propagation "2020-07-09T06:09:27.349" 
+06:09:29.986 [error] C1 propagation "2020-07-09T06:09:29.986" 
+06:09:36.988 [error] C1 propagation "2020-07-09T06:09:36.988" 
+06:09:37.351 [error] Sending find_sub batch [] 
+06:09:37.351 [error] Sending find_sub_aq batch [] 
+06:09:37.351 [error] batched message propagation "2020-07-09T06:09:37.351" 
+06:09:43.989 [error] C1 propagation "2020-07-09T06:09:43.989" 
+06:09:47.353 [error] Sending find_sub batch [] 
+06:09:47.353 [error] Sending find_sub_aq batch [] 
+06:09:47.353 [error] batched message propagation "2020-07-09T06:09:47.353" 
+06:09:48.129 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:09:48.129" Took=25611 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_09_28_869}],[],[]}}}}] 
+06:09:48.217 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",16,0},{"delta_send",0,17},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",74,0},{"sub_cancel",0,0}] 
+06:09:50.990 [error] C1 propagation "2020-07-09T06:09:50.990" 
+06:09:57.355 [error] Sending find_sub batch [] 
+06:09:57.355 [error] Sending find_sub_aq batch [] 
+06:09:57.355 [error] batched message propagation "2020-07-09T06:09:57.355" 
+06:09:57.991 [error] C1 propagation "2020-07-09T06:09:57.991" 
+06:10:04.385 [error] C2 propagation "2020-07-09T06:10:04.385" 
+06:10:04.992 [error] C1 propagation "2020-07-09T06:10:04.992" 
+06:10:07.357 [error] Sending find_sub batch [] 
+06:10:07.357 [error] Sending find_sub_aq batch [] 
+06:10:07.357 [error] batched message propagation "2020-07-09T06:10:07.357" 
+06:10:11.993 [error] C1 propagation "2020-07-09T06:10:11.993" 
+06:10:17.359 [error] Sending find_sub batch [] 
+06:10:17.359 [error] Sending find_sub_aq batch [] 
+06:10:17.359 [error] batched message propagation "2020-07-09T06:10:17.359" 
+06:10:18.994 [error] C1 propagation "2020-07-09T06:10:18.994" 
+06:10:25.995 [error] C1 propagation "2020-07-09T06:10:25.995" 
+06:10:27.361 [error] Sending find_sub batch [] 
+06:10:27.361 [error] Sending find_sub_aq batch [] 
+06:10:27.361 [error] batched message propagation "2020-07-09T06:10:27.361" 
+06:10:28.050 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:10:28.498" Took=27182 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_10_11_079}],[]}}}}] 
+06:10:28.085 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",17,0},{"delta_send",0,18},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",75,0},{"sub_cancel",0,0}] 
+06:10:32.996 [error] C1 propagation "2020-07-09T06:10:32.996" 
+06:10:36.027 [error] C3 propagation "2020-07-09T06:10:36.274" 
+06:10:37.362 [error] Sending find_sub batch [] 
+06:10:37.362 [error] Sending find_sub_aq batch [] 
+06:10:37.362 [error] batched message propagation "2020-07-09T06:10:37.362" 
+06:10:39.997 [error] C1 propagation "2020-07-09T06:10:39.997" 
+06:10:44.387 [error] C2 propagation "2020-07-09T06:10:44.387" 
+06:10:46.999 [error] C1 propagation "2020-07-09T06:10:46.999" 
+06:10:47.364 [error] Sending find_sub batch [] 
+06:10:47.364 [error] Sending find_sub_aq batch [] 
+06:10:47.364 [error] batched message propagation "2020-07-09T06:10:47.364" 
+06:10:54.000 [error] C1 propagation "2020-07-09T06:10:54.412" 
+06:10:57.366 [error] Sending find_sub batch [] 
+06:10:57.366 [error] Sending find_sub_aq batch [] 
+06:10:57.366 [error] batched message propagation "2020-07-09T06:10:57.366" 
+06:10:57.578 [warning] global: 'b@11.0.0.12' failed to connect to 'a@12.0.0.11'
+06:10:57.579 [warning] global: 'b@11.0.0.12' failed to connect to 'a@10.0.0.11'
+06:10:57.579 [warning] global: 'b@11.0.0.12' failed to connect to 'a@13.0.0.11'
+06:10:57.583 [warning] global: 'b@11.0.0.12' failed to connect to 'a@14.0.0.11'
+06:10:57.583 [warning] global: 'b@11.0.0.12' failed to connect to 'a@15.0.0.11'
+06:10:57.583 [warning] global: 'b@11.0.0.12' failed to connect to 'a@16.0.0.11'
+06:10:57.583 [warning] global: 'b@11.0.0.12' failed to connect to 'a@17.0.0.11'
+06:10:57.583 [warning] global: 'b@11.0.0.12' failed to connect to 'a@19.0.0.11'
+06:10:57.583 [warning] global: 'b@11.0.0.12' failed to connect to 'a@18.0.0.11'
+06:11:01.001 [error] C1 propagation "2020-07-09T06:11:01.172" 
+06:11:07.368 [error] Sending find_sub batch [] 
+06:11:07.368 [error] Sending find_sub_aq batch [] 
+06:11:07.368 [error] batched message propagation "2020-07-09T06:11:07.368" 
+06:11:08.003 [error] C1 propagation "2020-07-09T06:11:08.365" 
+06:11:08.065 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:11:08.649" Took=27210 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_10_53_289}]}}}}] 
+06:11:08.065 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",18,0},{"delta_send",0,19},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",76,0},{"sub_cancel",0,0}] 
+06:11:15.005 [error] C1 propagation "2020-07-09T06:11:15.543" 
+06:11:17.370 [error] Sending find_sub batch [] 
+06:11:17.370 [error] Sending find_sub_aq batch [] 
+06:11:17.370 [error] batched message propagation "2020-07-09T06:11:17.370" 
+06:11:22.006 [error] C1 propagation "2020-07-09T06:11:22.660" 
+06:11:24.388 [error] C2 propagation "2020-07-09T06:11:24.388" 
+06:11:27.372 [error] Sending find_sub batch [] 
+06:11:27.372 [error] Sending find_sub_aq batch [] 
+06:11:27.372 [error] batched message propagation "2020-07-09T06:11:27.372" 
+06:11:29.008 [error] C1 propagation "2020-07-09T06:11:29.842" 
+06:11:36.009 [error] C1 propagation "2020-07-09T06:11:36.966" 
+06:11:37.373 [error] Sending find_sub batch [] 
+06:11:37.373 [error] Sending find_sub_aq batch [] 
+06:11:37.373 [error] batched message propagation "2020-07-09T06:11:37.373" 
+06:11:43.010 [error] C1 propagation "2020-07-09T06:11:43.105" 
+06:11:46.028 [error] C3 propagation "2020-07-09T06:11:46.283" 
+06:11:47.375 [error] Sending find_sub batch [] 
+06:11:47.375 [error] Sending find_sub_aq batch [] 
+06:11:47.375 [error] batched message propagation "2020-07-09T06:11:47.375" 
+06:11:48.092 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:11:48.919" Took=30062 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[#{what => timeis_06_11_35_504}],[],[],[],[],[],[],[],[],[],[],[],[]}}}}] 
+06:11:48.150 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",19,0},{"delta_send",0,20},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",77,0},{"sub_cancel",0,0}] 
+06:11:50.011 [error] C1 propagation "2020-07-09T06:11:50.113" 
+06:11:57.012 [error] C1 propagation "2020-07-09T06:11:57.126" 
+06:11:57.376 [error] Sending find_sub batch [] 
+06:11:57.376 [error] Sending find_sub_aq batch [] 
+06:11:57.376 [error] batched message propagation "2020-07-09T06:11:57.376" 
+06:12:04.013 [error] C1 propagation "2020-07-09T06:12:04.134" 
+06:12:04.389 [error] C2 propagation "2020-07-09T06:12:04.389" 
+06:12:07.378 [error] Sending find_sub batch [] 
+06:12:07.378 [error] Sending find_sub_aq batch [] 
+06:12:07.378 [error] batched message propagation "2020-07-09T06:12:07.378" 
+06:12:11.014 [error] C1 propagation "2020-07-09T06:12:11.147" 
+06:12:17.379 [error] Sending find_sub batch [] 
+06:12:17.379 [error] Sending find_sub_aq batch [] 
+06:12:17.379 [error] batched message propagation "2020-07-09T06:12:17.379" 
+06:12:18.016 [error] C1 propagation "2020-07-09T06:12:18.166" 
+06:12:25.018 [error] C1 propagation "2020-07-09T06:12:25.185" 
+06:12:27.380 [error] Sending find_sub batch [] 
+06:12:27.380 [error] Sending find_sub_aq batch [] 
+06:12:27.380 [error] batched message propagation "2020-07-09T06:12:27.380" 
+06:12:28.049 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:12:28.492" Took=24077 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[#{what => timeis_06_12_11_693}],[],[],[],[],[],[],[],[],[],[],[],[]}}}}] 
+06:12:28.135 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",20,0},{"delta_send",0,21},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",78,0},{"sub_cancel",0,0}] 
+06:12:32.019 [error] C1 propagation "2020-07-09T06:12:32.196" 
+06:12:37.381 [error] Sending find_sub batch [] 
+06:12:37.381 [error] Sending find_sub_aq batch [] 
+06:12:37.381 [error] batched message propagation "2020-07-09T06:12:37.381" 
+06:12:39.021 [error] C1 propagation "2020-07-09T06:12:39.214" 
+06:12:44.391 [error] C2 propagation "2020-07-09T06:12:44.391" 
+06:12:46.022 [error] C1 propagation "2020-07-09T06:12:46.226" 
+06:12:47.382 [error] Sending find_sub batch [] 
+06:12:47.382 [error] Sending find_sub_aq batch [] 
+06:12:47.382 [error] batched message propagation "2020-07-09T06:12:47.382" 
+06:12:53.024 [error] C1 propagation "2020-07-09T06:12:53.245" 
+06:12:56.029 [error] C3 propagation "2020-07-09T06:12:56.296" 
+06:12:57.383 [error] Sending find_sub batch [] 
+06:12:57.383 [error] Sending find_sub_aq batch [] 
+06:12:57.383 [error] batched message propagation "2020-07-09T06:12:57.383" 
+06:13:00.025 [error] C1 propagation "2020-07-09T06:13:00.255" 
+06:13:07.027 [error] C1 propagation "2020-07-09T06:13:07.275" 
+06:13:07.384 [error] Sending find_sub batch [] 
+06:13:07.384 [error] Sending find_sub_aq batch [] 
+06:13:07.384 [error] batched message propagation "2020-07-09T06:13:07.384" 
+06:13:08.050 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:13:08.500" Took=22624 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_12_53_909}],[],[],[]}}}}] 
+06:13:08.050 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",21,0},{"delta_send",0,22},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",79,0},{"sub_cancel",0,0}] 
+06:13:14.028 [error] C1 propagation "2020-07-09T06:13:14.284" 
+06:13:17.386 [error] Sending find_sub batch [] 
+06:13:17.386 [error] Sending find_sub_aq batch [] 
+06:13:17.386 [error] batched message propagation "2020-07-09T06:13:17.386" 
+06:13:21.029 [error] C1 propagation "2020-07-09T06:13:21.294" 
+06:13:24.392 [error] C2 propagation "2020-07-09T06:13:24.392" 
+06:13:27.388 [error] Sending find_sub batch [] 
+06:13:27.388 [error] Sending find_sub_aq batch [] 
+06:13:27.388 [error] batched message propagation "2020-07-09T06:13:27.388" 
+06:13:28.030 [error] C1 propagation "2020-07-09T06:13:28.305" 
+06:13:35.031 [error] C1 propagation "2020-07-09T06:13:35.315" 
+06:13:37.389 [error] Sending find_sub batch [] 
+06:13:37.389 [error] Sending find_sub_aq batch [] 
+06:13:37.389 [error] batched message propagation "2020-07-09T06:13:37.389" 
+06:13:42.032 [error] C1 propagation "2020-07-09T06:13:42.325" 
+06:13:47.391 [error] Sending find_sub batch [] 
+06:13:47.391 [error] Sending find_sub_aq batch [] 
+06:13:47.391 [error] batched message propagation "2020-07-09T06:13:47.391" 
+06:13:48.055 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:13:48.551" Took=25915 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[#{what => timeis_06_13_36_127}],[],[],[],[],[],[],[],[],[],[],[]}}}}] 
+06:13:48.105 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",22,0},{"delta_send",0,23},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",80,0},{"sub_cancel",0,0}] 
+06:13:49.033 [error] C1 propagation "2020-07-09T06:13:49.336" 
+06:13:56.035 [error] C1 propagation "2020-07-09T06:13:56.353" 
+06:13:57.393 [error] Sending find_sub batch [] 
+06:13:57.393 [error] Sending find_sub_aq batch [] 
+06:13:57.393 [error] batched message propagation "2020-07-09T06:13:57.393" 
+06:14:03.036 [error] C1 propagation "2020-07-09T06:14:03.365" 
+06:14:04.394 [error] C2 propagation "2020-07-09T06:14:04.394" 
+06:14:06.031 [error] C3 propagation "2020-07-09T06:14:06.315" 
+06:14:07.395 [error] Sending find_sub batch [] 
+06:14:07.395 [error] Sending find_sub_aq batch [] 
+06:14:07.395 [error] batched message propagation "2020-07-09T06:14:07.395" 
+06:14:10.038 [error] C1 propagation "2020-07-09T06:14:10.385" 
+06:14:17.040 [error] C1 propagation "2020-07-09T06:14:17.405" 
+06:14:17.396 [error] Sending find_sub batch [] 
+06:14:17.396 [error] Sending find_sub_aq batch [] 
+06:14:17.396 [error] batched message propagation "2020-07-09T06:14:17.396" 
+06:14:24.041 [error] C1 propagation "2020-07-09T06:14:24.415" 
+06:14:27.398 [error] Sending find_sub batch [] 
+06:14:27.399 [error] Sending find_sub_aq batch [] 
+06:14:27.399 [error] batched message propagation "2020-07-09T06:14:27.399" 
+06:14:28.054 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:14:28.547" Took=23980 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[#{what => timeis_06_14_11_983}],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]}}}}] 
+06:14:28.145 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",23,0},{"delta_send",0,24},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",81,0},{"sub_cancel",0,0}] 
+06:14:31.043 [error] C1 propagation "2020-07-09T06:14:31.434" 
+06:14:37.400 [error] Sending find_sub batch [] 
+06:14:37.400 [error] Sending find_sub_aq batch [] 
+06:14:37.400 [error] batched message propagation "2020-07-09T06:14:37.400" 
+06:14:38.044 [error] C1 propagation "2020-07-09T06:14:38.445" 
+06:14:44.395 [error] C2 propagation "2020-07-09T06:14:44.395" 
+06:14:45.046 [error] C1 propagation "2020-07-09T06:14:45.465" 
+06:14:47.402 [error] Sending find_sub batch [] 
+06:14:47.402 [error] Sending find_sub_aq batch [] 
+06:14:47.402 [error] batched message propagation "2020-07-09T06:14:47.402" 
+06:14:52.047 [error] C1 propagation "2020-07-09T06:14:52.474" 
+06:14:57.404 [error] Sending find_sub batch [] 
+06:14:57.404 [error] Sending find_sub_aq batch [] 
+06:14:57.404 [error] batched message propagation "2020-07-09T06:14:57.404" 
+06:14:59.048 [error] C1 propagation "2020-07-09T06:14:59.484" 
+06:15:06.050 [error] C1 propagation "2020-07-09T06:15:06.504" 
+06:15:07.406 [error] Sending find_sub batch [] 
+06:15:07.406 [error] Sending find_sub_aq batch [] 
+06:15:07.406 [error] batched message propagation "2020-07-09T06:15:07.406" 
+06:15:08.245 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:15:08.245" Took=23276 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_14_54_211}],[],[],[],[],[]}}}}] 
+06:15:08.467 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",24,0},{"delta_send",0,25},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",82,0},{"sub_cancel",0,0}] 
+06:15:13.051 [error] C1 propagation "2020-07-09T06:15:13.514" 
+06:15:16.033 [error] C3 propagation "2020-07-09T06:15:16.334" 
+06:15:17.408 [error] Sending find_sub batch [] 
+06:15:17.408 [error] Sending find_sub_aq batch [] 
+06:15:17.408 [error] batched message propagation "2020-07-09T06:15:17.408" 
+06:15:20.053 [error] C1 propagation "2020-07-09T06:15:20.534" 
+06:15:24.396 [error] C2 propagation "2020-07-09T06:15:24.396" 
+06:15:27.055 [error] C1 propagation "2020-07-09T06:15:27.554" 
+06:15:27.410 [error] Sending find_sub batch [] 
+06:15:27.410 [error] Sending find_sub_aq batch [] 
+06:15:27.410 [error] batched message propagation "2020-07-09T06:15:27.410" 
+06:15:34.057 [error] C1 propagation "2020-07-09T06:15:34.574" 
+06:15:37.411 [error] Sending find_sub batch [] 
+06:15:37.411 [error] Sending find_sub_aq batch [] 
+06:15:37.412 [error] batched message propagation "2020-07-09T06:15:37.411" 
+06:15:41.058 [error] C1 propagation "2020-07-09T06:15:41.583" 
+06:15:47.413 [error] Sending find_sub batch [] 
+06:15:47.413 [error] Sending find_sub_aq batch [] 
+06:15:47.413 [error] batched message propagation "2020-07-09T06:15:47.413" 
+06:15:48.058 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:15:48.584" Took=23220 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_15_36_443}],[],[],[],[],[]}}}}] 
+06:15:48.079 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",25,0},{"delta_send",0,26},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",83,0},{"sub_cancel",0,0}] 
+06:15:48.239 [error] C1 propagation "2020-07-09T06:15:48.239" 
+06:15:55.241 [error] C1 propagation "2020-07-09T06:15:55.241" 
+06:15:57.415 [error] Sending find_sub batch [] 
+06:15:57.415 [error] Sending find_sub_aq batch [] 
+06:15:57.415 [error] batched message propagation "2020-07-09T06:15:57.415" 
+06:16:02.243 [error] C1 propagation "2020-07-09T06:16:02.243" 
+06:16:04.397 [error] C2 propagation "2020-07-09T06:16:04.397" 
+06:16:07.417 [error] Sending find_sub batch [] 
+06:16:07.417 [error] Sending find_sub_aq batch [] 
+06:16:07.417 [error] batched message propagation "2020-07-09T06:16:07.417" 
+06:16:09.245 [error] C1 propagation "2020-07-09T06:16:09.245" 
+06:16:16.247 [error] C1 propagation "2020-07-09T06:16:16.247" 
+06:16:17.418 [error] Sending find_sub batch [] 
+06:16:17.418 [error] Sending find_sub_aq batch [] 
+06:16:17.418 [error] batched message propagation "2020-07-09T06:16:17.418" 
+06:16:23.248 [error] C1 propagation "2020-07-09T06:16:23.248" 
+06:16:26.034 [error] C3 propagation "2020-07-09T06:16:26.344" 
+06:16:27.420 [error] Sending find_sub batch [] 
+06:16:27.420 [error] Sending find_sub_aq batch [] 
+06:16:27.420 [error] batched message propagation "2020-07-09T06:16:27.420" 
+06:16:28.058 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:16:28.580" Took=22036 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[#{what => timeis_06_16_18_681}],[],[],[],[],[],[],[],[],[],[]}}}}] 
+06:16:28.081 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",26,0},{"delta_send",0,27},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",84,0},{"sub_cancel",0,0}] 
+06:16:30.249 [error] C1 propagation "2020-07-09T06:16:30.249" 
+06:16:37.251 [error] C1 propagation "2020-07-09T06:16:37.251" 
+06:16:37.422 [error] Sending find_sub batch [] 
+06:16:37.422 [error] Sending find_sub_aq batch [] 
+06:16:37.422 [error] batched message propagation "2020-07-09T06:16:37.422" 
+06:16:44.253 [error] C1 propagation "2020-07-09T06:16:44.253" 
+06:16:44.399 [error] C2 propagation "2020-07-09T06:16:44.399" 
+06:16:47.423 [error] Sending find_sub batch [] 
+06:16:47.423 [error] Sending find_sub_aq batch [] 
+06:16:47.424 [error] batched message propagation "2020-07-09T06:16:47.423" 
+06:16:51.255 [error] C1 propagation "2020-07-09T06:16:51.255" 
+06:16:57.425 [error] Sending find_sub batch [] 
+06:16:57.425 [error] Sending find_sub_aq batch [] 
+06:16:57.425 [error] batched message propagation "2020-07-09T06:16:57.425" 
+06:16:58.257 [error] C1 propagation "2020-07-09T06:16:58.257" 
+06:17:05.259 [error] C1 propagation "2020-07-09T06:17:05.259" 
+06:17:07.426 [error] Sending find_sub batch [] 
+06:17:07.426 [error] Sending find_sub_aq batch [] 
+06:17:07.426 [error] batched message propagation "2020-07-09T06:17:07.426" 
+06:17:08.060 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:17:08.607" Took=21961 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_16_54_887}]}}}}] 
+06:17:08.126 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",27,0},{"delta_send",0,28},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",85,0},{"sub_cancel",0,0}] 
+06:17:12.260 [error] C1 propagation "2020-07-09T06:17:12.260" 
+06:17:17.428 [error] Sending find_sub batch [] 
+06:17:17.428 [error] Sending find_sub_aq batch [] 
+06:17:17.428 [error] batched message propagation "2020-07-09T06:17:17.428" 
+06:17:19.262 [error] C1 propagation "2020-07-09T06:17:19.262" 
+06:17:24.401 [error] C2 propagation "2020-07-09T06:17:24.401" 
+06:17:26.264 [error] C1 propagation "2020-07-09T06:17:26.264" 
+06:17:27.429 [error] Sending find_sub batch [] 
+06:17:27.429 [error] Sending find_sub_aq batch [] 
+06:17:27.429 [error] batched message propagation "2020-07-09T06:17:27.429" 
+06:17:33.265 [error] C1 propagation "2020-07-09T06:17:33.265" 
+06:17:36.035 [error] C3 propagation "2020-07-09T06:17:36.355" 
+06:17:37.430 [error] Sending find_sub batch [] 
+06:17:37.430 [error] Sending find_sub_aq batch [] 
+06:17:37.430 [error] batched message propagation "2020-07-09T06:17:37.430" 
+06:17:40.266 [error] C1 propagation "2020-07-09T06:17:40.266" 
+06:17:47.267 [error] C1 propagation "2020-07-09T06:17:47.267" 
+06:17:47.432 [error] Sending find_sub batch [] 
+06:17:47.432 [error] Sending find_sub_aq batch [] 
+06:17:47.432 [error] batched message propagation "2020-07-09T06:17:47.432" 
+06:17:48.064 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:17:48.639" Took=23117 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_17_31_087}],[],[],[],[],[]}}}}] 
+06:17:48.064 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",28,0},{"delta_send",0,29},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",86,0},{"sub_cancel",0,0}] 
+06:17:54.268 [error] C1 propagation "2020-07-09T06:17:54.268" 
+06:17:57.434 [error] Sending find_sub batch [] 
+06:17:57.434 [error] Sending find_sub_aq batch [] 
+06:17:57.434 [error] batched message propagation "2020-07-09T06:17:57.434" 
+06:18:01.269 [error] C1 propagation "2020-07-09T06:18:01.269" 
+06:18:04.402 [error] C2 propagation "2020-07-09T06:18:04.402" 
+06:18:07.436 [error] Sending find_sub batch [] 
+06:18:07.436 [error] Sending find_sub_aq batch [] 
+06:18:07.436 [error] batched message propagation "2020-07-09T06:18:07.436" 
+06:18:08.270 [error] C1 propagation "2020-07-09T06:18:08.270" 
+06:18:15.271 [error] C1 propagation "2020-07-09T06:18:15.271" 
+06:18:17.438 [error] Sending find_sub batch [] 
+06:18:17.438 [error] Sending find_sub_aq batch [] 
+06:18:17.438 [error] batched message propagation "2020-07-09T06:18:17.438" 
+06:18:22.273 [error] C1 propagation "2020-07-09T06:18:22.273" 
+06:18:27.440 [error] Sending find_sub batch [] 
+06:18:27.440 [error] Sending find_sub_aq batch [] 
+06:18:27.440 [error] batched message propagation "2020-07-09T06:18:27.440" 
+06:18:28.070 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:18:28.701" Took=28178 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[#{what => timeis_06_18_13_315}],[],[],[],[],[],[],[],[]}}}}] 
+06:18:28.170 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",29,0},{"delta_send",0,30},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",87,0},{"sub_cancel",0,0}] 
+06:18:29.274 [error] C1 propagation "2020-07-09T06:18:29.274" 
+06:18:36.275 [error] C1 propagation "2020-07-09T06:18:36.275" 
+06:18:37.442 [error] Sending find_sub batch [] 
+06:18:37.442 [error] Sending find_sub_aq batch [] 
+06:18:37.442 [error] batched message propagation "2020-07-09T06:18:37.442" 
+06:18:43.277 [error] C1 propagation "2020-07-09T06:18:43.277" 
+06:18:44.403 [error] C2 propagation "2020-07-09T06:18:44.403" 
+06:18:46.037 [error] C3 propagation "2020-07-09T06:18:46.373" 
+06:18:47.444 [error] Sending find_sub batch [] 
+06:18:47.444 [error] Sending find_sub_aq batch [] 
+06:18:47.444 [error] batched message propagation "2020-07-09T06:18:47.444" 
+06:18:50.278 [error] C1 propagation "2020-07-09T06:18:50.278" 
+06:18:57.279 [error] C1 propagation "2020-07-09T06:18:57.279" 
+06:18:57.446 [error] Sending find_sub batch [] 
+06:18:57.446 [error] Sending find_sub_aq batch [] 
+06:18:57.446 [error] batched message propagation "2020-07-09T06:18:57.446" 
+06:19:04.280 [error] C1 propagation "2020-07-09T06:19:04.280" 
+06:19:07.448 [error] Sending find_sub batch [] 
+06:19:07.448 [error] Sending find_sub_aq batch [] 
+06:19:07.448 [error] batched message propagation "2020-07-09T06:19:07.448" 
+06:19:08.076 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:19:08.768" Took=33144 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_18_49_519}],[],[],[]}}}}] 
+06:19:08.077 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",30,0},{"delta_send",0,31},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",88,0},{"sub_cancel",0,0}] 
+06:19:11.281 [error] C1 propagation "2020-07-09T06:19:11.281" 
+06:19:17.449 [error] Sending find_sub batch [] 
+06:19:17.449 [error] Sending find_sub_aq batch [] 
+06:19:17.449 [error] batched message propagation "2020-07-09T06:19:17.449" 
+06:19:18.283 [error] C1 propagation "2020-07-09T06:19:18.283" 
+06:19:24.404 [error] C2 propagation "2020-07-09T06:19:24.404" 
+06:19:25.285 [error] C1 propagation "2020-07-09T06:19:25.285" 
+06:19:27.450 [error] Sending find_sub batch [] 
+06:19:27.450 [error] Sending find_sub_aq batch [] 
+06:19:27.450 [error] batched message propagation "2020-07-09T06:19:27.450" 
+06:19:32.288 [error] C1 propagation "2020-07-09T06:19:32.288" 
+06:19:37.452 [error] Sending find_sub batch [] 
+06:19:37.452 [error] Sending find_sub_aq batch [] 
+06:19:37.452 [error] batched message propagation "2020-07-09T06:19:37.452" 
+06:19:39.289 [error] C1 propagation "2020-07-09T06:19:39.289" 
+06:19:46.291 [error] C1 propagation "2020-07-09T06:19:46.291" 
+06:19:47.453 [error] Sending find_sub batch [] 
+06:19:47.453 [error] Sending find_sub_aq batch [] 
+06:19:47.453 [error] batched message propagation "2020-07-09T06:19:47.453" 
+06:19:48.074 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:19:48.740" Took=28943 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[#{what => timeis_06_19_31_332}],[],[],[],[],[],[],[],[],[],[]}}}}] 
+06:19:48.181 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",31,0},{"delta_send",0,32},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",89,0},{"sub_cancel",0,0}] 
+06:19:53.293 [error] C1 propagation "2020-07-09T06:19:53.293" 
+06:19:56.038 [error] C3 propagation "2020-07-09T06:19:56.383" 
+06:19:57.455 [error] Sending find_sub batch [] 
+06:19:57.455 [error] Sending find_sub_aq batch [] 
+06:19:57.455 [error] batched message propagation "2020-07-09T06:19:57.455" 
+06:20:00.294 [error] C1 propagation "2020-07-09T06:20:00.294" 
+06:20:04.405 [error] C2 propagation "2020-07-09T06:20:04.405" 
+06:20:07.295 [error] C1 propagation "2020-07-09T06:20:07.295" 
+06:20:07.456 [error] Sending find_sub batch [] 
+06:20:07.456 [error] Sending find_sub_aq batch [] 
+06:20:07.456 [error] batched message propagation "2020-07-09T06:20:07.456" 
+06:20:14.296 [error] C1 propagation "2020-07-09T06:20:14.296" 
+06:20:17.458 [error] Sending find_sub batch [] 
+06:20:17.458 [error] Sending find_sub_aq batch [] 
+06:20:17.458 [error] batched message propagation "2020-07-09T06:20:17.458" 
+06:20:21.298 [error] C1 propagation "2020-07-09T06:20:21.298" 
+06:20:27.459 [error] Sending find_sub batch [] 
+06:20:27.459 [error] Sending find_sub_aq batch [] 
+06:20:27.459 [error] batched message propagation "2020-07-09T06:20:27.459" 
+06:20:28.069 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:20:28.695" Took=22880 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_20_13_574}],[],[]}}}}] 
+06:20:28.133 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",32,0},{"delta_send",0,33},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",90,0},{"sub_cancel",0,0}] 
+06:20:28.300 [error] C1 propagation "2020-07-09T06:20:28.300" 
+06:20:35.301 [error] C1 propagation "2020-07-09T06:20:35.301" 
+06:20:37.460 [error] Sending find_sub batch [] 
+06:20:37.460 [error] Sending find_sub_aq batch [] 
+06:20:37.461 [error] batched message propagation "2020-07-09T06:20:37.460" 
+06:20:42.302 [error] C1 propagation "2020-07-09T06:20:42.302" 
+06:20:44.406 [error] C2 propagation "2020-07-09T06:20:44.406" 
+06:20:47.462 [error] Sending find_sub batch [] 
+06:20:47.462 [error] Sending find_sub_aq batch [] 
+06:20:47.463 [error] batched message propagation "2020-07-09T06:20:47.463" 
+06:20:49.304 [error] C1 propagation "2020-07-09T06:20:49.304" 
+06:20:56.306 [error] C1 propagation "2020-07-09T06:20:56.306" 
+06:20:57.464 [error] Sending find_sub batch [] 
+06:20:57.464 [error] Sending find_sub_aq batch [] 
+06:20:57.464 [error] batched message propagation "2020-07-09T06:20:57.464" 
+06:21:03.308 [error] C1 propagation "2020-07-09T06:21:03.308" 
+06:21:06.039 [error] C3 propagation "2020-07-09T06:21:06.393" 
+06:21:07.466 [error] Sending find_sub batch [] 
+06:21:07.466 [error] Sending find_sub_aq batch [] 
+06:21:07.466 [error] batched message propagation "2020-07-09T06:21:07.466" 
+06:21:08.080 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:21:08.798" Took=31154 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_20_55_823}],[]}}}}] 
+06:21:08.146 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",33,0},{"delta_send",0,34},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",91,0},{"sub_cancel",0,0}] 
+06:21:10.310 [error] C1 propagation "2020-07-09T06:21:10.310" 
+06:21:17.311 [error] C1 propagation "2020-07-09T06:21:17.311" 
+06:21:17.467 [error] Sending find_sub batch [] 
+06:21:17.467 [error] Sending find_sub_aq batch [] 
+06:21:17.467 [error] batched message propagation "2020-07-09T06:21:17.467" 
+06:21:24.312 [error] C1 propagation "2020-07-09T06:21:24.312" 
+06:21:24.416 [error] C2 propagation "2020-07-09T06:21:24.416" 
+06:21:27.469 [error] Sending find_sub batch [] 
+06:21:27.469 [error] Sending find_sub_aq batch [] 
+06:21:27.469 [error] batched message propagation "2020-07-09T06:21:27.469" 
+06:21:31.313 [error] C1 propagation "2020-07-09T06:21:31.313" 
+06:21:37.471 [error] Sending find_sub batch [] 
+06:21:37.471 [error] Sending find_sub_aq batch [] 
+06:21:37.471 [error] batched message propagation "2020-07-09T06:21:37.471" 
+06:21:38.314 [error] C1 propagation "2020-07-09T06:21:38.314" 
+06:21:45.315 [error] C1 propagation "2020-07-09T06:21:45.315" 
+06:21:47.473 [error] Sending find_sub batch [] 
+06:21:47.473 [error] Sending find_sub_aq batch [] 
+06:21:47.474 [error] batched message propagation "2020-07-09T06:21:47.473" 
+06:21:48.073 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:21:48.735" Took=23400 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[#{what => timeis_06_21_32_029}],[],[],[],[],[],[],[],[],[]}}}}] 
+06:21:48.073 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",34,0},{"delta_send",0,35},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",92,0},{"sub_cancel",0,0}] 
+06:21:52.317 [error] C1 propagation "2020-07-09T06:21:52.317" 
+06:21:57.474 [error] Sending find_sub batch [] 
+06:21:57.474 [error] Sending find_sub_aq batch [] 
+06:21:57.474 [error] batched message propagation "2020-07-09T06:21:57.474" 
+06:21:59.319 [error] C1 propagation "2020-07-09T06:21:59.319" 
+06:22:04.418 [error] C2 propagation "2020-07-09T06:22:04.418" 
+06:22:06.320 [error] C1 propagation "2020-07-09T06:22:06.320" 
+06:22:07.476 [error] Sending find_sub batch [] 
+06:22:07.476 [error] Sending find_sub_aq batch [] 
+06:22:07.476 [error] batched message propagation "2020-07-09T06:22:07.476" 
+06:22:13.322 [error] C1 propagation "2020-07-09T06:22:13.322" 
+06:22:16.040 [error] C3 propagation "2020-07-09T06:22:16.404" 
+06:22:17.477 [error] Sending find_sub batch [] 
+06:22:17.477 [error] Sending find_sub_aq batch [] 
+06:22:17.477 [error] batched message propagation "2020-07-09T06:22:17.477" 
+06:22:20.324 [error] C1 propagation "2020-07-09T06:22:20.324" 
+06:22:27.325 [error] C1 propagation "2020-07-09T06:22:27.325" 
+06:22:27.479 [error] Sending find_sub batch [] 
+06:22:27.479 [error] Sending find_sub_aq batch [] 
+06:22:27.479 [error] batched message propagation "2020-07-09T06:22:27.479" 
+06:22:28.074 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:22:28.744" Took=22381 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[#{what => timeis_06_22_14_272}],[],[],[],[],[],[],[]}}}}] 
+06:22:28.137 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",35,0},{"delta_send",0,36},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",93,0},{"sub_cancel",0,0}] 
+06:22:34.326 [error] C1 propagation "2020-07-09T06:22:34.326" 
+06:22:37.480 [error] Sending find_sub batch [] 
+06:22:37.480 [error] Sending find_sub_aq batch [] 
+06:22:37.480 [error] batched message propagation "2020-07-09T06:22:37.480" 
+06:22:41.327 [error] C1 propagation "2020-07-09T06:22:41.327" 
+06:22:44.420 [error] C2 propagation "2020-07-09T06:22:44.420" 
+06:22:47.482 [error] Sending find_sub batch [] 
+06:22:47.482 [error] Sending find_sub_aq batch [] 
+06:22:47.482 [error] batched message propagation "2020-07-09T06:22:47.482" 
+06:22:48.328 [error] C1 propagation "2020-07-09T06:22:48.328" 
+06:22:55.330 [error] C1 propagation "2020-07-09T06:22:55.330" 
+06:22:57.484 [error] Sending find_sub batch [] 
+06:22:57.484 [error] Sending find_sub_aq batch [] 
+06:22:57.484 [error] batched message propagation "2020-07-09T06:22:57.484" 
+06:23:02.331 [error] C1 propagation "2020-07-09T06:23:02.331" 
+06:23:07.485 [error] Sending find_sub batch [] 
+06:23:07.485 [error] Sending find_sub_aq batch [] 
+06:23:07.485 [error] batched message propagation "2020-07-09T06:23:07.485" 
+06:23:08.077 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:23:08.769" Took=23677 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_22_56_536}],[],[],[],[]}}}}] 
+06:23:08.156 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",36,0},{"delta_send",0,37},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",94,0},{"sub_cancel",0,0}] 
+06:23:09.333 [error] C1 propagation "2020-07-09T06:23:09.333" 
+06:23:16.334 [error] C1 propagation "2020-07-09T06:23:16.334" 
+06:23:17.487 [error] Sending find_sub batch [] 
+06:23:17.487 [error] Sending find_sub_aq batch [] 
+06:23:17.487 [error] batched message propagation "2020-07-09T06:23:17.487" 
+06:23:23.335 [error] C1 propagation "2020-07-09T06:23:23.335" 
+06:23:24.421 [error] C2 propagation "2020-07-09T06:23:24.421" 
+06:23:26.041 [error] C3 propagation "2020-07-09T06:23:26.415" 
+06:23:27.488 [error] Sending find_sub batch [] 
+06:23:27.488 [error] Sending find_sub_aq batch [] 
+06:23:27.488 [error] batched message propagation "2020-07-09T06:23:27.488" 
+06:23:30.336 [error] C1 propagation "2020-07-09T06:23:30.336" 
+06:23:37.337 [error] C1 propagation "2020-07-09T06:23:37.337" 
+06:23:37.490 [error] Sending find_sub batch [] 
+06:23:37.490 [error] Sending find_sub_aq batch [] 
+06:23:37.490 [error] batched message propagation "2020-07-09T06:23:37.490" 
+06:23:44.339 [error] C1 propagation "2020-07-09T06:23:44.339" 
+06:23:47.491 [error] Sending find_sub batch [] 
+06:23:47.491 [error] Sending find_sub_aq batch [] 
+06:23:47.491 [error] batched message propagation "2020-07-09T06:23:47.491" 
+06:23:48.076 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:23:48.763" Took=22071 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_23_32_755}],[],[],[]}}}}] 
+06:23:48.076 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",37,0},{"delta_send",0,38},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",95,0},{"sub_cancel",0,0}] 
+06:23:51.340 [error] C1 propagation "2020-07-09T06:23:51.340" 
+06:23:57.493 [error] Sending find_sub batch [] 
+06:23:57.493 [error] Sending find_sub_aq batch [] 
+06:23:57.493 [error] batched message propagation "2020-07-09T06:23:57.493" 
+06:23:58.341 [error] C1 propagation "2020-07-09T06:23:58.341" 
+06:24:04.423 [error] C2 propagation "2020-07-09T06:24:04.423" 
+06:24:05.342 [error] C1 propagation "2020-07-09T06:24:05.342" 
+06:24:07.495 [error] Sending find_sub batch [] 
+06:24:07.495 [error] Sending find_sub_aq batch [] 
+06:24:07.495 [error] batched message propagation "2020-07-09T06:24:07.495" 
+06:24:12.343 [error] C1 propagation "2020-07-09T06:24:12.343" 
+06:24:17.497 [error] Sending find_sub batch [] 
+06:24:17.497 [error] Sending find_sub_aq batch [] 
+06:24:17.497 [error] batched message propagation "2020-07-09T06:24:17.497" 
+06:24:19.345 [error] C1 propagation "2020-07-09T06:24:19.345" 
+06:24:26.346 [error] C1 propagation "2020-07-09T06:24:26.346" 
+06:24:27.498 [error] Sending find_sub batch [] 
+06:24:27.498 [error] Sending find_sub_aq batch [] 
+06:24:27.498 [error] batched message propagation "2020-07-09T06:24:27.498" 
+06:24:28.079 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:24:28.797" Took=22495 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_24_14_578}]}}}}] 
+06:24:28.127 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",38,0},{"delta_send",0,39},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",96,0},{"sub_cancel",0,0}] 
+06:24:33.347 [error] C1 propagation "2020-07-09T06:24:33.347" 
+06:24:36.042 [error] C3 propagation "2020-07-09T06:24:36.425" 
+06:24:37.500 [error] Sending find_sub batch [] 
+06:24:37.500 [error] Sending find_sub_aq batch [] 
+06:24:37.500 [error] batched message propagation "2020-07-09T06:24:37.500" 
+06:24:40.348 [error] C1 propagation "2020-07-09T06:24:40.348" 
+06:24:44.424 [error] C2 propagation "2020-07-09T06:24:44.424" 
+06:24:47.349 [error] C1 propagation "2020-07-09T06:24:47.349" 
+06:24:47.502 [error] Sending find_sub batch [] 
+06:24:47.502 [error] Sending find_sub_aq batch [] 
+06:24:47.502 [error] batched message propagation "2020-07-09T06:24:47.502" 
+06:24:54.351 [error] C1 propagation "2020-07-09T06:24:54.351" 
+06:24:57.504 [error] Sending find_sub batch [] 
+06:24:57.504 [error] Sending find_sub_aq batch [] 
+06:24:57.504 [error] batched message propagation "2020-07-09T06:24:57.504" 
+06:25:01.353 [error] C1 propagation "2020-07-09T06:25:01.353" 
+06:25:07.506 [error] Sending find_sub batch [] 
+06:25:07.506 [error] Sending find_sub_aq batch [] 
+06:25:07.506 [error] batched message propagation "2020-07-09T06:25:07.506" 
+06:25:08.084 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:25:08.838" Took=24727 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[#{what => timeis_06_24_56_921}],[],[],[],[],[],[],[],[],[],[],[],[],[]}}}}] 
+06:25:08.261 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",39,0},{"delta_send",0,40},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",97,0},{"sub_cancel",0,0}] 
+06:25:08.354 [error] C1 propagation "2020-07-09T06:25:08.354" 
+06:25:15.355 [error] C1 propagation "2020-07-09T06:25:15.355" 
+06:25:17.509 [error] Sending find_sub batch [] 
+06:25:17.509 [error] Sending find_sub_aq batch [] 
+06:25:17.509 [error] batched message propagation "2020-07-09T06:25:17.509" 
+06:25:22.356 [error] C1 propagation "2020-07-09T06:25:22.356" 
+06:25:24.426 [error] C2 propagation "2020-07-09T06:25:24.426" 
+06:25:27.510 [error] Sending find_sub batch [] 
+06:25:27.510 [error] Sending find_sub_aq batch [] 
+06:25:27.510 [error] batched message propagation "2020-07-09T06:25:27.510" 
+06:25:29.357 [error] C1 propagation "2020-07-09T06:25:29.357" 
+06:25:36.358 [error] C1 propagation "2020-07-09T06:25:36.358" 
+06:25:37.511 [error] Sending find_sub batch [] 
+06:25:37.511 [error] Sending find_sub_aq batch [] 
+06:25:37.511 [error] batched message propagation "2020-07-09T06:25:37.511" 
+06:25:43.359 [error] C1 propagation "2020-07-09T06:25:43.359" 
+06:25:46.043 [error] C3 propagation "2020-07-09T06:25:46.434" 
+06:25:47.512 [error] Sending find_sub batch [] 
+06:25:47.512 [error] Sending find_sub_aq batch [] 
+06:25:47.512 [error] batched message propagation "2020-07-09T06:25:47.512" 
+06:25:48.084 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:25:48.848" Took=23730 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[#{what => timeis_06_25_39_191}],[],[],[],[],[],[],[],[],[],[],[],[],[],[]}}}}] 
+06:25:48.105 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",40,0},{"delta_send",0,41},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",98,0},{"sub_cancel",0,0}] 
+06:25:50.361 [error] C1 propagation "2020-07-09T06:25:50.361" 
+06:25:57.362 [error] C1 propagation "2020-07-09T06:25:57.362" 
+06:25:57.513 [error] Sending find_sub batch [] 
+06:25:57.513 [error] Sending find_sub_aq batch [] 
+06:25:57.513 [error] batched message propagation "2020-07-09T06:25:57.513" 
+06:26:04.363 [error] C1 propagation "2020-07-09T06:26:04.363" 
+06:26:04.433 [error] C2 propagation "2020-07-09T06:26:04.433" 
+06:26:07.514 [error] Sending find_sub batch [] 
+06:26:07.514 [error] Sending find_sub_aq batch [] 
+06:26:07.514 [error] batched message propagation "2020-07-09T06:26:07.514" 
+06:26:11.364 [error] C1 propagation "2020-07-09T06:26:11.364" 
+06:26:17.515 [error] Sending find_sub batch [] 
+06:26:17.515 [error] Sending find_sub_aq batch [] 
+06:26:17.515 [error] batched message propagation "2020-07-09T06:26:17.515" 
+06:26:18.365 [error] C1 propagation "2020-07-09T06:26:18.365" 
+06:26:25.366 [error] C1 propagation "2020-07-09T06:26:25.366" 
+06:26:27.516 [error] Sending find_sub batch [] 
+06:26:27.516 [error] Sending find_sub_aq batch [] 
+06:26:27.516 [error] batched message propagation "2020-07-09T06:26:27.516" 
+06:26:28.090 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:26:28.903" Took=26851 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[#{what => timeis_06_26_09_386}],[],[],[],[],[],[],[]}}}}] 
+06:26:28.090 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",41,0},{"delta_send",0,42},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",99,0},{"sub_cancel",0,0}] 
+06:26:32.368 [error] C1 propagation "2020-07-09T06:26:32.368" 
+06:26:37.517 [error] Sending find_sub batch [] 
+06:26:37.517 [error] Sending find_sub_aq batch [] 
+06:26:37.517 [error] batched message propagation "2020-07-09T06:26:37.517" 
+06:26:39.369 [error] C1 propagation "2020-07-09T06:26:39.369" 
+06:26:44.435 [error] C2 propagation "2020-07-09T06:26:44.435" 
+06:26:46.370 [error] C1 propagation "2020-07-09T06:26:46.370" 
+06:26:47.519 [error] Sending find_sub batch [] 
+06:26:47.520 [error] Sending find_sub_aq batch [] 
+06:26:47.520 [error] batched message propagation "2020-07-09T06:26:47.520" 
+06:26:53.371 [error] C1 propagation "2020-07-09T06:26:53.371" 
+06:26:56.044 [error] C3 propagation "2020-07-09T06:26:56.443" 
+06:26:57.521 [error] Sending find_sub batch [] 
+06:26:57.521 [error] Sending find_sub_aq batch [] 
+06:26:57.521 [error] batched message propagation "2020-07-09T06:26:57.521" 
+06:27:00.373 [error] C1 propagation "2020-07-09T06:27:00.373" 
+06:27:07.375 [error] C1 propagation "2020-07-09T06:27:07.375" 
+06:27:07.522 [error] Sending find_sub batch [] 
+06:27:07.522 [error] Sending find_sub_aq batch [] 
+06:27:07.522 [error] batched message propagation "2020-07-09T06:27:07.522" 
+06:27:08.086 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:27:08.867" Took=21916 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[#{what => timeis_06_26_51_675}],[],[],[],[],[],[],[],[],[],[]}}}}] 
+06:27:08.143 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",42,0},{"delta_send",0,43},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",100,0},{"sub_cancel",0,0}] 
+06:27:14.377 [error] C1 propagation "2020-07-09T06:27:14.377" 
+06:27:17.523 [error] Sending find_sub batch [] 
+06:27:17.523 [error] Sending find_sub_aq batch [] 
+06:27:17.523 [error] batched message propagation "2020-07-09T06:27:17.523" 
+06:27:21.379 [error] C1 propagation "2020-07-09T06:27:21.379" 
+06:27:24.436 [error] C2 propagation "2020-07-09T06:27:24.436" 
+06:27:27.524 [error] Sending find_sub batch [] 
+06:27:27.524 [error] Sending find_sub_aq batch [] 
+06:27:27.524 [error] batched message propagation "2020-07-09T06:27:27.524" 
+06:27:28.380 [error] C1 propagation "2020-07-09T06:27:28.380" 
+06:27:35.381 [error] C1 propagation "2020-07-09T06:27:35.381" 
+06:27:37.526 [error] Sending find_sub batch [] 
+06:27:37.526 [error] Sending find_sub_aq batch [] 
+06:27:37.526 [error] batched message propagation "2020-07-09T06:27:37.526" 
+06:27:42.383 [error] C1 propagation "2020-07-09T06:27:42.383" 
+06:27:47.527 [error] Sending find_sub batch [] 
+06:27:47.527 [error] Sending find_sub_aq batch [] 
+06:27:47.527 [error] batched message propagation "2020-07-09T06:27:47.527" 
+06:27:48.088 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:27:48.884" Took=22349 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_27_33_947}],[],[],[]}}}}] 
+06:27:48.109 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",43,0},{"delta_send",0,44},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",101,0},{"sub_cancel",0,0}] 
+06:27:49.384 [error] C1 propagation "2020-07-09T06:27:49.384" 
+06:27:56.386 [error] C1 propagation "2020-07-09T06:27:56.386" 
+06:27:57.528 [error] Sending find_sub batch [] 
+06:27:57.528 [error] Sending find_sub_aq batch [] 
+06:27:57.528 [error] batched message propagation "2020-07-09T06:27:57.528" 
+06:28:03.387 [error] C1 propagation "2020-07-09T06:28:03.387" 
+06:28:04.438 [error] C2 propagation "2020-07-09T06:28:04.438" 
+06:28:06.045 [error] C3 propagation "2020-07-09T06:28:06.453" 
+06:28:07.530 [error] Sending find_sub batch [] 
+06:28:07.530 [error] Sending find_sub_aq batch [] 
+06:28:07.530 [error] batched message propagation "2020-07-09T06:28:07.530" 
+06:28:10.389 [error] C1 propagation "2020-07-09T06:28:10.389" 
+06:28:17.390 [error] C1 propagation "2020-07-09T06:28:17.390" 
+06:28:17.532 [error] Sending find_sub batch [] 
+06:28:17.532 [error] Sending find_sub_aq batch [] 
+06:28:17.532 [error] batched message propagation "2020-07-09T06:28:17.532" 
+06:28:24.391 [error] C1 propagation "2020-07-09T06:28:24.391" 
+06:28:27.533 [error] Sending find_sub batch [] 
+06:28:27.533 [error] Sending find_sub_aq batch [] 
+06:28:27.533 [error] batched message propagation "2020-07-09T06:28:27.533" 
+06:28:28.094 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:28:28.943" Took=23038 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[#{what => timeis_06_28_10_188}]}}}}] 
+06:28:28.094 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",44,0},{"delta_send",0,45},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",102,0},{"sub_cancel",0,0}] 
+06:28:31.392 [error] C1 propagation "2020-07-09T06:28:31.392" 
+06:28:37.534 [error] Sending find_sub batch [] 
+06:28:37.534 [error] Sending find_sub_aq batch [] 
+06:28:37.534 [error] batched message propagation "2020-07-09T06:28:37.534" 
+06:28:38.393 [error] C1 propagation "2020-07-09T06:28:38.393" 
+06:28:44.439 [error] C2 propagation "2020-07-09T06:28:44.439" 
+06:28:45.394 [error] C1 propagation "2020-07-09T06:28:45.394" 
+06:28:47.535 [error] Sending find_sub batch [] 
+06:28:47.535 [error] Sending find_sub_aq batch [] 
+06:28:47.535 [error] batched message propagation "2020-07-09T06:28:47.535" 
+06:28:52.395 [error] C1 propagation "2020-07-09T06:28:52.395" 
+06:28:57.536 [error] Sending find_sub batch [] 
+06:28:57.536 [error] Sending find_sub_aq batch [] 
+06:28:57.536 [error] batched message propagation "2020-07-09T06:28:57.536" 
+06:28:59.396 [error] C1 propagation "2020-07-09T06:28:59.396" 
+06:29:06.397 [error] C1 propagation "2020-07-09T06:29:06.397" 
+06:29:07.538 [error] Sending find_sub batch [] 
+06:29:07.538 [error] Sending find_sub_aq batch [] 
+06:29:07.538 [error] batched message propagation "2020-07-09T06:29:07.538" 
+06:29:08.231 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:29:08.231" Took=23017 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[#{what => timeis_06_28_52_468}],[],[],[],[],[],[],[],[],[],[],[]}}}}] 
+06:29:08.347 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",45,0},{"delta_send",0,46},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",103,0},{"sub_cancel",0,0}] 
+06:29:13.398 [error] C1 propagation "2020-07-09T06:29:13.398" 
+06:29:16.047 [error] C3 propagation "2020-07-09T06:29:16.473" 
+06:29:17.539 [error] Sending find_sub batch [] 
+06:29:17.539 [error] Sending find_sub_aq batch [] 
+06:29:17.539 [error] batched message propagation "2020-07-09T06:29:17.539" 
+06:29:20.400 [error] C1 propagation "2020-07-09T06:29:20.400" 
+06:29:24.440 [error] C2 propagation "2020-07-09T06:29:24.440" 
+06:29:27.401 [error] C1 propagation "2020-07-09T06:29:27.401" 
+06:29:27.541 [error] Sending find_sub batch [] 
+06:29:27.541 [error] Sending find_sub_aq batch [] 
+06:29:27.541 [error] batched message propagation "2020-07-09T06:29:27.541" 
+06:29:34.403 [error] C1 propagation "2020-07-09T06:29:34.403" 
+06:29:37.542 [error] Sending find_sub batch [] 
+06:29:37.542 [error] Sending find_sub_aq batch [] 
+06:29:37.542 [error] batched message propagation "2020-07-09T06:29:37.542" 
+06:29:41.404 [error] C1 propagation "2020-07-09T06:29:41.404" 
+06:29:47.543 [error] Sending find_sub batch [] 
+06:29:47.543 [error] Sending find_sub_aq batch [] 
+06:29:47.543 [error] batched message propagation "2020-07-09T06:29:47.543" 
+06:29:48.093 [error] LASPVIN Received delta From='c@11.0.0.13' at TimeStamp="2020-07-09T06:29:48.937" Took=22074 microseconds DeltaVal:[{<<"key1">>,{set,1,16,16,8,80,48,{[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]},{{[],[],[],[],[],[],[#{what => timeis_06_29_22_308}],[],[],[],[],[],[],[],[],[]}}}}] 
+06:29:48.094 [error] Message Counters [{"Message","Tx","Rx"},{"check_tonode",0,0},{"check_tonode_ack",0,0},{"delta_ack",46,0},{"delta_send",0,47},{"find_sub",1,24},{"find_sub_aq",49,0},{"find_sub_aq_lock",0,0},{"rate_ack",4,3},{"rate_class",3,4},{"rate_refresh",0,1},{"rate_subscribe",1,0},{"rate_subscribe_ack",0,1},{"send_backend",104,0},{"sub_cancel",0,0}] 
+06:29:48.405 [error] C1 propagation "2020-07-09T06:29:48.405" 
+06:29:55.406 [error] C1 propagation "2020-07-09T06:29:55.406" 
+06:29:57.544 [error] Sending find_sub batch [] 
+06:29:57.544 [error] Sending find_sub_aq batch [] 
+06:29:57.544 [error] batched message propagation "2020-07-09T06:29:57.544" 
+06:30:02.407 [error] C1 propagation "2020-07-09T06:30:02.407" 
+06:30:04.441 [error] C2 propagation "2020-07-09T06:30:04.441" 
+06:30:07.545 [error] Sending find_sub batch [] 
+06:30:07.545 [error] Sending find_sub_aq batch [] 
+06:30:07.545 [error] batched message propagation "2020-07-09T06:30:07.545" 
+06:30:09.409 [error] C1 propagation "2020-07-09T06:30:09.409" 
+06:30:16.410 [error] C1 propagation "2020-07-09T06:30:16.410" 
+06:30:17.546 [error] Sending find_sub batch [] 
+06:30:17.546 [error] Sending find_sub_aq batch [] 
+06:30:17.546 [error] batched message propagation "2020-07-09T06:30:17.546" 
+06:30:23.412 [error] C1 propagation "2020-07-09T06:30:23.412" 
+06:30:26.048 [error] C3 propagation "2020-07-09T06:30:26.483" 
+06:30:27.548 [error] Sending find_sub batch [] 
+06:30:27.548 [error] Sending find_sub_aq batch [] 
+06:30:27.548 [error] batched message propagation "2020-07-09T06:30:27.548" 
+06:30:30.413 [error] C1 propagation "2020-07-09T06:30:30.413" 
+06:30:37.414 [error] C1 propagation "2020-07-09T06:30:37.414" 
+06:30:37.550 [error] Sending find_sub batch [] 
+06:30:37.550 [error] Sending find_sub_aq batch [] 
+06:30:37.550 [error] batched message propagation "2020-07-09T06:30:37.550" 
+06:30:44.415 [error] C1 propagation "2020-07-09T06:30:44.415" 
+06:30:44.450 [error] C2 propagation "2020-07-09T06:30:44.450" 
+06:30:47.551 [error] Sending find_sub batch [] 
+06:30:47.551 [error] Sending find_sub_aq batch [] 
+06:30:47.551 [error] batched message propagation "2020-07-09T06:30:47.551" 
+06:30:51.417 [error] C1 propagation "2020-07-09T06:30:51.417" 
+06:30:57.553 [error] Sending find_sub batch [] 
+06:30:57.553 [error] Sending find_sub_aq batch [] 
+06:30:57.553 [error] batched message propagation "2020-07-09T06:30:57.553" 
+06:30:58.418 [error] C1 propagation "2020-07-09T06:30:58.418" 
+06:31:05.419 [error] C1 propagation "2020-07-09T06:31:05.419" 
+06:31:07.555 [error] Sending find_sub batch [] 
+06:31:07.555 [error] Sending find_sub_aq batch [] 
+06:31:07.555 [error] batched message propagation "2020-07-09T06:31:07.555" 
+06:31:12.420 [error] C1 propagation "2020-07-09T06:31:12.420" 
+06:31:17.556 [error] Sending find_sub batch [] 
+06:31:17.556 [error] Sending find_sub_aq batch [] 
+06:31:17.556 [error] batched message propagation "2020-07-09T06:31:17.556" 
+06:31:19.421 [error] C1 propagation "2020-07-09T06:31:19.421" 
